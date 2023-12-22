@@ -1,38 +1,162 @@
-.App {
-  text-align: center;
+.Container {
+  display: flex;
+  height: 100vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.sideBar {
+  height: 100%;
+  width: 25%;
+  background-color: rgba(158, 165, 170, 0.288);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.mainContainer {
+  height: 100%;
+  width: 75%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.backButtonContainer {
+  position: fixed;
+}
+
+.sideBarContaint {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  height: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+
+
+
+/*  schema page CSS  */
+
+.schemaContainer {
+  height: 100%;
+  display: flex;
+  margin-left: 2%;
+  margin-right: 2%;
+  flex-direction: column;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.schemaCardsContainer {
+  display: flex;
+  flex-wrap:wrap;
+  justify-content:start;
+  height: 100%;
+  overflow: auto;
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: transparent transparent; /* For Firefox */
+}
+
+.schemaCardsContainer::-webkit-scrollbar {
+  width: 10px; /* Adjust the width as needed */
+  border-radius: 8px;
+}
+
+.schemaCardsContainer::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 100px;
+}
+
+.schemaCardsContainer::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.card-container {
+  height: 40%;
+  width: 33.333333%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background-color: white;
+  height: 90%;
+  width: 90%;
+  border-radius: 2%;
+  box-shadow: 0px 1px 2px rgb(97, 95, 95);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.card-content {
+  padding-left: 5%;
+}
+
+.addSchemaButton {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid black; /* Border color */
+  color: #ffffff; /* Text color */
+  background-color: black; /* Background color */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.addSchemaButton:hover {
+  background-color: white; /* Change background color on hover */
+  color: black;
+}
+
+.nextButton {
+  position: fixed;
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid black; /* Border color */
+  color: #ffffff; /* Text color */
+  background-color: black; /* Background color */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  margin-top: 38%;
+  margin-left: 65%;
+  box-shadow: 7px 7px 10px rgb(97, 95, 95);
+}
+
+.nextButton:hover {
+  background-color: white; /* Change background color on hover */
+  color: black;
+}
+
+/*  new-schema-pop up window */
+
+.new-schema-container {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.new-schema-card {
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 0px 20px rgba(97, 95, 95, 0.555);
+  height: 50%;
+  width: 30%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.new-schema-table {
+  display: flex;
+  justify-content: space-between;
+}
+
+.new-schema-button {
+  display: flex;
+  justify-content: space-between;
+  padding: 5%;
+  padding-left: 15%;
+  padding-right: 15%;
 }

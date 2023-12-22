@@ -1,25 +1,154 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function App() {
+
+  const [mainWindow, setMainWindow] = useState("schamaContent");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="Container">
+      <div className='sideBar'>
+        <div className='backButtonContainer'>
+          back
+        </div>
+        <div className='sideBarContaint'>
+          <div>
+            <p style={{ cursor: 'pointer' }} onClick={() => setMainWindow("schamaContent")}>Schema</p>
+            <p style={{ cursor: 'pointer' }} onClick={() => setMainWindow("controllerContent")}>Controller</p>
+          </div>
+        </div>
+      </div>
+      <div className='mainContainer'>
+        {mainWindow == "schamaContent" &&
+          <SchamaContent />
+        }
+        {mainWindow == "controllerContent" &&
+          <ControllerContent />
+        }
+      </div>
     </div>
   );
+}
+
+const SchamaContent = () => {
+
+  const [schemaData, setSchemaData] = useState([]);
+  const [showNewSchemaPopUp, setShowNewSchemaPopUp] = useState(0);
+
+  // new schema pop up data
+  const [newSchemaName, setNewSchemaName] = useState("");
+  const [newTableName1, setnewTableName1] = useState("");
+  const [newDataType1, setnewDataType1] = useState("");
+  const [newTableName2, setnewTableName2] = useState("");
+  const [newDataType2, setnewDataType2] = useState("");
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/schemas")
+      .then((res) => setSchemaData(res.data))
+  }, [schemaData])
+
+  const addNewSchema = () => {
+    const newSchema = 
+      {
+        "schemaName": newSchemaName,
+        "schema": {
+          newTableName1: {
+            "type": newDataType1,
+            "required": true
+          },
+          newTableName2: {
+            "type": newDataType2,
+            "required": true
+          }
+        }
+      }
+    axios.post('http://localhost:5000/create_schema', newSchema)
+    .then((res) => setShowNewSchemaPopUp(0))
+    .catch((err) => console.log(err))
+  }
+
+  return (
+    <div className='schemaContainer'>
+      {showNewSchemaPopUp == 1 &&
+        <div className='new-schema-container'>
+          <div className='new-schema-card'>
+            <div>
+              <p>Schema Nme</p>
+              <input onChange={(e) => setNewSchemaName(e.target.value)} />
+            </div>
+            <div className='new-schema-table'>
+              <div>
+                <p>Table Nme</p>
+                <input onChange={(e) => setnewTableName1(e.target.value)} />
+              </div>
+              <div>
+                <p>Data Type</p>
+                <input onChange={(e) => setnewDataType1(e.target.value)} />
+              </div>
+            </div>
+            <div className='new-schema-table'>
+              <div>
+                <p>Table Nme</p>
+                <input onChange={(e) => setnewTableName2(e.target.value)} />
+              </div>
+              <div>
+                <p>Data Type</p>
+                <input onChange={(e) => setnewDataType2(e.target.value)} />
+              </div>
+            </div>
+            <div className='new-schema-button'>
+              <button onClick={() => setShowNewSchemaPopUp(0)} className='addSchemaButton'>Cancel</button>
+              <button onClick={() => addNewSchema()} className='addSchemaButton'>Add</button>
+            </div>
+          </div>
+        </div>
+      }
+      <div className='header'>
+        <h1>Schema</h1>
+      </div>
+      <div className='schemaCardsContainer'>
+        <div>
+          <button className='nextButton'>Next</button>
+        </div>
+        {schemaData.map((schema) => (
+          <div className='card-container'>
+            <div className='card'>
+              <div className='card-content'>
+                <h2>{schema}</h2>
+              </div>
+              <div className='card-content'>
+                <p>Schema Description</p>
+              </div>
+              <div className='card-content'>
+                <button className='addSchemaButton'>Edit</button>
+              </div>
+            </div>
+          </div>
+        ))}
+        <div className='card-container'>
+          <div className='card'>
+            <div className='card-content'>
+              <h2>New Schema</h2>
+            </div>
+            <div className='card-content'>
+              <button onClick={() => setShowNewSchemaPopUp(1)} className='addSchemaButton'>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+
+
+
+const ControllerContent = () => {
+  return (
+    <div>this is controller page</div>
+  )
 }
 
 export default App;
