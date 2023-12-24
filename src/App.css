@@ -160,3 +160,185 @@
   padding-left: 15%;
   padding-right: 15%;
 }
+
+
+/*  schema page CSS  */
+
+.controllerContainer {
+  height: 100%;
+  display: flex;
+  margin-left: 2%;
+  margin-right: 2%;
+  flex-direction: column;
+}
+
+.controllerCardsContainer {
+  display: flex;
+  justify-content:start;
+  height: 100%;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.controllerCardsContainer::-webkit-scrollbar {
+  width: 10px; /* Adjust the width as needed */
+  border-radius: 8px;
+}
+
+.controllerCardsContainer::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 100px;
+}
+
+.controllerCardsContainer::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.controllerInfoContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2%;
+}
+
+.controllerMethodsContainer {
+  display: flex;
+  height: 100%;
+  padding-top: 2%;
+  overflow: auto;
+}
+
+.controllerMethodsContainer::-webkit-scrollbar {
+  width: 1px; /* Adjust the width as needed */
+  height: 10px;
+  border-radius: 8px;
+}
+
+.controllerMethodsContainer::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 100px;
+}
+
+.controllerMethodsContainer::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.controller-card-container {
+  height: 100%;
+  width: 33.33333%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  margin-right: 40px;
+  margin-left: 1px;
+}
+
+.controller-card {
+  background-color: white;
+  height: 250px;
+  width: 400px;
+  border-radius: 2%;
+  box-shadow: 0px 1px 2px rgb(97, 95, 95);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+}
+
+.card-content {
+  padding-left: 5%;
+}
+
+.addControllerButton {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid black; /* Border color */
+  color: #ffffff; /* Text color */
+  background-color: black; /* Background color */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.addControllerButton:hover {
+  background-color: white; /* Change background color on hover */
+  color: black;
+}
+
+.addRouterButton {
+  display: inline-block;
+  padding: 1px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid black; /* Border color */
+  color: #ffffff; /* Text color */
+  background-color: black; /* Background color */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.addRouterButton:hover {
+  background-color: white; /* Change background color on hover */
+  color: black;
+}
+
+.nextButton {
+  position: fixed;
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid black; /* Border color */
+  color: #ffffff; /* Text color */
+  background-color: black; /* Background color */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  margin-top: 38%;
+  margin-left: 65%;
+  box-shadow: 7px 7px 10px rgb(97, 95, 95);
+}
+
+.nextButton:hover {
+  background-color: white; /* Change background color on hover */
+  color: black;
+}
+
+/*  new-schema-pop up window */
+
+.new-schema-container {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.new-schema-card {
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 0px 20px rgba(97, 95, 95, 0.555);
+  height: 50%;
+  width: 30%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.new-schema-table {
+  display: flex;
+  justify-content: space-between;
+}
+
+.new-schema-button {
+  display: flex;
+  justify-content: space-between;
+  padding: 5%;
+  padding-left: 15%;
+  padding-right: 15%;
+}
