@@ -69,6 +69,12 @@ const SchamaContent = () => {
       .catch((err) => console.log(err))
   }
 
+  const deleteSchema = (schema) => {
+    axios.post('http://localhost:5000/delete_schema', { schema })
+      .then()
+      .catch((err) => console.log(err))
+  }
+
   return (
     <div className='schemaContainer'>
       {showNewSchemaPopUp == 1 &&
@@ -123,6 +129,7 @@ const SchamaContent = () => {
               </div>
               <div className='card-content'>
                 <button className='addSchemaButton'>Edit</button>
+                <p onClick={() => deleteSchema(schema)}>delete</p>
               </div>
             </div>
           </div>
@@ -152,6 +159,7 @@ const ControllerContent = () => {
   const [showNewControllerPopUp, setShowNewControllerPopUp] = useState(0);
   const [showNewControllerPopUpExisting, setShowNewControllerPopUpExisting] = useState(0);
   const [showNewControllerCards, setShowNewControllerCards] = useState(0);
+  const [showNewControllerButton, setShowNewControllerButton] = useState(0);
 
   const methodOptions = ['get', 'post', 'put', 'delete']
   // new controller pop up data
@@ -237,6 +245,34 @@ const ControllerContent = () => {
       .catch((err) => console.log(err));
   }
 
+  const deleteRouter = (router) => {
+    axios.post('http://localhost:5000/delete_router', { router })
+      .then()
+      .catch((err) => console.log(err))
+  }
+
+  const deleteController = (route, controller) => {
+    route[1].splice(route[1].indexOf(controller), 1)
+    route[2].splice(route[1].indexOf(controller), 1)
+    
+    const newController = {
+      "route": route[0],
+      "methods": route[1],
+      "models": route[2]
+    }
+
+    axios.post('http://localhost:5000/create_router', newController)
+      .then(() => {
+        setRoute("")
+        setmethod("")
+        setmodel("")
+        setmodels([])
+        setmethods([])
+      })
+      .catch((err) => console.log(err));
+
+  }
+
   return (
     <div className='controllerContainer'>
       {showNewControllerPopUp == 1 &&
@@ -301,7 +337,7 @@ const ControllerContent = () => {
                 setmethods([]);
                 setmodels([])
               }} className='addSchemaButton'>Cancel</button>
-              <button onClick={() => addNewControllerExisting()} className='addSchemaButton'>Add</button>
+              <button onClick={() => {addNewControllerExisting()}} className='addSchemaButton'>Add</button>
             </div>
           </div>
         </div>
@@ -317,6 +353,7 @@ const ControllerContent = () => {
           <div className='controllerInfoContainer'>
             <div className='controllerInputContainer'>
               <input value={route[0]} placeholder='here' style={{ width: "90%" }} />
+              <button onClick={() => { deleteRouter(route[0]) }} className='addRouterButton'>Delete</button>
             </div>
             <div className='controllerMethodsContainer'>
               {route[1].map((controller) => (
@@ -330,6 +367,7 @@ const ControllerContent = () => {
                     </div>
                     <div className='card-content'>
                       <button className='addControllerButton'>Edit</button>
+                      <p onClick={() => deleteController(route, controller)}>delete</p>
                     </div>
                   </div>
                 </div>
@@ -350,7 +388,12 @@ const ControllerContent = () => {
         <div className='controllerInfoContainer'>
           <div className='controllerInputContainer'>
             <input value={route} onChange={(e) => setRoute(e.target.value)} placeholder='here' style={{ width: "90%" }} />
-            <button onClick={() => { setShowNewControllerCards(1); }} className='addRouterButton'>Add</button>
+            {showNewControllerButton == 0 &&
+              <button onClick={() => { setShowNewControllerCards(1); setShowNewControllerButton(1)}} className='addRouterButton'>Add</button>
+            }
+            {showNewControllerButton == 1 &&
+              <button onClick={() => { setShowNewControllerCards(0); setShowNewControllerButton(0); setRoute("")}} className='addRouterButton'>Cancel</button>
+            }
           </div>
           {showNewControllerCards == 1 &&
             <div className='controllerMethodsContainer'>
@@ -363,7 +406,7 @@ const ControllerContent = () => {
                     <p>Controller Description</p>
                   </div>
                   <div className='card-content'>
-                    <button className='addControllerButton' onClick={() => setShowNewControllerPopUp(1)}>Add</button>
+                    <button className='addControllerButton' onClick={() => {setShowNewControllerPopUp(1); setShowNewControllerButton(0)}}>Add</button>
                   </div>
                 </div>
               </div>
