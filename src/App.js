@@ -150,6 +150,7 @@ const ControllerContent = () => {
   const [routesData, setroutesData] = useState([]);
   const [SchemaData, setSchemaData] = useState([]);
   const [showNewControllerPopUp, setShowNewControllerPopUp] = useState(0);
+  const [showNewControllerPopUpExisting, setShowNewControllerPopUpExisting] = useState(0);
   const [showNewControllerCards, setShowNewControllerCards] = useState(0);
 
   const methodOptions = ['get', 'post', 'put', 'delete']
@@ -174,20 +175,23 @@ const ControllerContent = () => {
 
   }, [routesData])
 
-  const addNewControllerinExistingRouter = (route) => {
-    console.log(route)
-  }
-
   const giveMeCode = () => {
     axios.post('http://localhost:5000/create_code')
   }
 
-  const addNewController = () => {
+
+
+  const addNewControllerinExistingRouter = (route) => {
+    setShowNewControllerPopUpExisting(1);
+    setRoute(route[0])
+    setmethods(route[1])
+    setmodels(route[2])
+  }
+
+
+  const addNewControllerExisting = () => {
     models.push(model)
     methods.push(method)
-    console.log(route)
-    console.log(methods)
-    console.log(models)
 
     const newController = {
       "route": route,
@@ -196,8 +200,41 @@ const ControllerContent = () => {
     }
 
     axios.post('http://localhost:5000/create_router', newController)
-      .then((res) => setShowNewControllerPopUp(0))
+      .then((res) => {
+        setShowNewControllerPopUpExisting(0)
+      })
       .catch((err) => console.log(err))
+    setRoute("");
+    setmethod("");
+    setmodel("");
+    setmethods([]);
+    setmodels([]);
+
+  }
+
+
+
+  const addNewController = () => {
+    models.push(model)
+    methods.push(method)
+
+    const newController = {
+      "route": route,
+      "methods": methods,
+      "models": models
+    }
+
+    axios.post('http://localhost:5000/create_router', newController)
+      .then(() => {
+        setShowNewControllerPopUp(0);
+        setShowNewControllerCards(0);
+        setRoute("")
+        setmethod("")
+        setmodel("")
+        setmodels([])
+        setmethods([])
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -232,6 +269,43 @@ const ControllerContent = () => {
           </div>
         </div>
       }
+      {showNewControllerPopUpExisting == 1 &&
+        <div className='new-schema-container'>
+          <div className='new-schema-card'>
+            <div>
+              <p>Schema Name</p>
+              <select onChange={(e) => setmodel(e.target.value)} id="dropdown" >
+                <option value="">Select Schema</option>
+                {SchemaData.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              <p>Method </p>
+              <select onChange={(e) => setmethod(e.target.value)} id="dropdown" >
+                <option value="">Select Method</option>
+                {methodOptions.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className='new-schema-button'>
+              <button onClick={() => {
+                setShowNewControllerPopUpExisting(0);
+                setRoute("");
+                setmethod("");
+                setmodel("");
+                setmethods([]);
+                setmodels([])
+              }} className='addSchemaButton'>Cancel</button>
+              <button onClick={() => addNewControllerExisting()} className='addSchemaButton'>Add</button>
+            </div>
+          </div>
+        </div>
+      }
       <div className='header'>
         <h1>Controller</h1>
       </div>
@@ -245,7 +319,7 @@ const ControllerContent = () => {
               <input value={route[0]} placeholder='here' style={{ width: "90%" }} />
             </div>
             <div className='controllerMethodsContainer'>
-              {routesData[0][1].map((controller) => (
+              {route[1].map((controller) => (
                 <div className='controller-card-container'>
                   <div className='controller-card'>
                     <div className='card-content'>
@@ -266,7 +340,7 @@ const ControllerContent = () => {
                     <h2>New Schema</h2>
                   </div>
                   <div className='card-content'>
-                    <button onClick={()=> addNewControllerinExistingRouter(route)} className='addSchemaButton'>Add</button>
+                    <button onClick={() => addNewControllerinExistingRouter(route)} className='addSchemaButton'>Add</button>
                   </div>
                 </div>
               </div>
@@ -275,7 +349,7 @@ const ControllerContent = () => {
         ))}
         <div className='controllerInfoContainer'>
           <div className='controllerInputContainer'>
-            <input onChange={(e) => setRoute(e.target.value)} placeholder='here' style={{ width: "90%" }} />
+            <input value={route} onChange={(e) => setRoute(e.target.value)} placeholder='here' style={{ width: "90%" }} />
             <button onClick={() => { setShowNewControllerCards(1); }} className='addRouterButton'>Add</button>
           </div>
           {showNewControllerCards == 1 &&
