@@ -44,6 +44,7 @@ const SchamaContent = () => {
 
   const [schemaData, setSchemaData] = useState([]);
   const [showNewSchemaPopUp, setShowNewSchemaPopUp] = useState(0);
+  const [started, setStarted] = useState(0);
 
   // new schema pop up data
   const [newSchemaName, setNewSchemaName] = useState("");
@@ -51,6 +52,16 @@ const SchamaContent = () => {
   const [newDataType1, setnewDataType1] = useState("");
   const [newTableName2, setnewTableName2] = useState("");
   const [newDataType2, setnewDataType2] = useState("");
+
+  const start = () => {
+    axios.get(Base_Url + 'start')
+    setStarted(1)
+  }
+  if (started == 0) {
+    start()
+  } 
+  //start()
+  //
 
   useEffect(() => {
     axios.get(Base_Url + "schemas")
