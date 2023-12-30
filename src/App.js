@@ -3,6 +3,14 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const environment = process.env.REACT_APP_Environment || "dev";
+let Base_Url = "";
+if (environment == "dev") {
+  Base_Url = "http://localhost:5000/"
+} else if (environment == "prod") {
+  Base_Url = process.env.REACT_APP_Base_URL;
+}
+
 function App() {
 
   const [mainWindow, setMainWindow] = useState("schamaContent");
@@ -45,7 +53,7 @@ const SchamaContent = () => {
   const [newDataType2, setnewDataType2] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:5000/schemas")
+    axios.get(Base_Url + "schemas")
       .then((res) => setSchemaData(res.data))
   }, [schemaData])
 
@@ -64,13 +72,13 @@ const SchamaContent = () => {
         }
       }
     }
-    axios.post('http://localhost:5000/create_schema', newSchema)
+    axios.post(Base_Url + 'create_schema', newSchema)
       .then((res) => setShowNewSchemaPopUp(0))
       .catch((err) => console.log(err))
   }
 
   const deleteSchema = (schema) => {
-    axios.post('http://localhost:5000/delete_schema', { schema })
+    axios.post(Base_Url + 'delete_schema', { schema })
       .then()
       .catch((err) => console.log(err))
   }
@@ -174,17 +182,17 @@ const ControllerContent = () => {
 
 
   useEffect(() => {
-    axios.get("http://localhost:5000/routers")
+    axios.get(Base_Url + "routers")
       .then((res) => {
         setroutesData(res.data)
       })
-    axios.get("http://localhost:5000/schemas")
+    axios.get(Base_Url + "schemas")
       .then((res) => setSchemaData(res.data))
 
   }, [routesData])
 
   const giveMeCode = () => {
-    axios.post('http://localhost:5000/create_code')
+    axios.post(Base_Url + 'create_code')
     .then((res) => {
       console.log(res.data.zipFileUrl)
       window.open(res.data.zipFileUrl, '_blank')
@@ -211,7 +219,7 @@ const ControllerContent = () => {
       "models": models
     }
 
-    axios.post('http://localhost:5000/create_router', newController)
+    axios.post(Base_Url + 'create_router', newController)
       .then((res) => {
         setShowNewControllerPopUpExisting(0)
       })
@@ -236,7 +244,7 @@ const ControllerContent = () => {
       "models": models
     }
 
-    axios.post('http://localhost:5000/create_router', newController)
+    axios.post(Base_Url + 'create_router', newController)
       .then(() => {
         setShowNewControllerPopUp(0);
         setShowNewControllerCards(0);
@@ -250,7 +258,7 @@ const ControllerContent = () => {
   }
 
   const deleteRouter = (router) => {
-    axios.post('http://localhost:5000/delete_router', { router })
+    axios.post(Base_Url + 'delete_router', { router })
       .then()
       .catch((err) => console.log(err))
   }
@@ -265,7 +273,7 @@ const ControllerContent = () => {
       "models": route[2]
     }
 
-    axios.post('http://localhost:5000/create_router', newController)
+    axios.post(Base_Url + 'create_router', newController)
       .then(() => {
         setRoute("")
         setmethod("")
