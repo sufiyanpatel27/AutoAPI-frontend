@@ -185,6 +185,10 @@ const ControllerContent = () => {
 
   const giveMeCode = () => {
     axios.post('http://localhost:5000/create_code')
+    .then((res) => {
+      console.log(res.data.zipFileUrl)
+      window.open(res.data.zipFileUrl, '_blank')
+    })
   }
 
 
