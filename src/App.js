@@ -2,7 +2,9 @@ import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 
+import HomePageContect from './Components/HomePage'
 import SchamaContent from './Components/SchemaPage'
 import ControllerContent from './Components/ControllerPage'
 
@@ -19,27 +21,13 @@ function App() {
   const [mainWindow, setMainWindow] = useState("schamaContent");
 
   return (
-    <div className="Container">
-      <div className='sideBar'>
-        <div className='backButtonContainer'>
-          back
-        </div>
-        <div className='sideBarContaint'>
-          <div>
-            <p style={{ cursor: 'pointer' }} onClick={() => setMainWindow("schamaContent")}>Schema</p>
-            <p style={{ cursor: 'pointer' }} onClick={() => setMainWindow("controllerContent")}>Controller</p>
-          </div>
-        </div>
-      </div>
-      <div className='mainContainer'>
-        {mainWindow == "schamaContent" &&
-          <SchamaContent />
-        }
-        {mainWindow == "controllerContent" &&
-          <ControllerContent />
-        }
-      </div>
-    </div>
+    <Router>
+        <Routes >
+          <Route path="/" element={<HomePageContect />} />
+          <Route path="/schema" element={<SchamaContent />} />
+          <Route path="/controller" element={<ControllerContent />} />
+        </Routes>
+    </Router>
   );
 }
 
