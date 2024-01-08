@@ -18,8 +18,6 @@ if (environment == "dev") {
 
 function App() {
 
-  const [mainWindow, setMainWindow] = useState("schamaContent");
-
   return (
     <Router>
         <Routes >
