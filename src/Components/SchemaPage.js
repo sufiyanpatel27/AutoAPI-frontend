@@ -60,10 +60,10 @@ const SchamaContent = () => {
     <div className="Container">
       <div className='sideBar'>
         <div className='backButtonContainer'>
-          back
+          <a href='/' style={{ cursor: 'pointer' }}>Home</a>
         </div>
         <div className='sideBarContaint'>
-          <div style={{display: 'flex', flexDirection:'column'}}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             <a href='/schema' style={{ cursor: 'pointer' }}>Schema</a>
             <a href='/controller' style={{ cursor: 'pointer' }}>Controller</a>
           </div>

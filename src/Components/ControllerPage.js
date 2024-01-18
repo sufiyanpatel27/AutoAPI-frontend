@@ -139,7 +139,7 @@ const ControllerContent = () => {
     <div className="Container">
       <div className='sideBar'>
         <div className='backButtonContainer'>
-          back
+          <a href='/' style={{ cursor: 'pointer' }}>Home</a>
         </div>
         <div className='sideBarContaint'>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
