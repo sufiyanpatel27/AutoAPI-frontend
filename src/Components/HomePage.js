@@ -17,9 +17,24 @@ const HomePageContect = () => {
   return (
     <div className="Container">
       <div className='sideBar'>
-        <div className='sideBarContaint'>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className='sideBarContaintHomePage'>
+          <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '30%', justifyContent: 'end', alignItems: 'center', fontSize: 80}}>
+            Auto API
           </div>
+          <div style={{ display: 'flex', flexDirection: 'column', width: '80%', justifyContent: 'center', alignItems: 'center'}}>
+            <p style={{ textAlign: 'center'}}>A Tool that helps you generate the Node JS backend code</p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', width: '80%', height: '50%', justifyContent: 'center', alignItems: 'center'}}>
+            <p style={{ fontSize: 20}}>Todos</p>
+            <div>
+            <li>first one to be done</li>
+            <li>second one to be done</li>
+            <li>third one to be done</li>
+            <li>fourth one to be done</li>
+            <li>fifth one to be done</li>
+            <li>sixth one to be done</li>
+            </div>
+          </div>  
         </div>
       </div>
       <div className='mainContainer'>
