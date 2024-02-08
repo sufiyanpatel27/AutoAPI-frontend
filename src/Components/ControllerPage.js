@@ -1,6 +1,8 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+
 
 const environment = process.env.REACT_APP_Environment || "dev";
 let Base_Url = "";
@@ -143,8 +145,8 @@ const ControllerContent = () => {
         </div>
         <div className='sideBarContaint'>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <a href='/schema' style={{ cursor: 'pointer' }}>Schema</a>
-            <a href='/controller' style={{ cursor: 'pointer' }}>Controller</a>
+            <Link to='/schema' style={{ cursor: 'pointer' }}>Schema</Link>
+            <Link to='/controller' style={{ cursor: 'pointer' }}>Controller</Link>
           </div>
         </div>
       </div>
