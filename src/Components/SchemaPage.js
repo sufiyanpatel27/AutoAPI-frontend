@@ -85,7 +85,12 @@ const SchamaContent = () => {
                   </div>
                   <div>
                     <p>Data Type</p>
-                    <input onChange={(e) => setnewDataType1(e.target.value)} />
+                    {/* <input onChange={(e) => setnewDataType1(e.target.value)} /> */}
+                    <select id="dropdown" onChange={(e) => setnewDataType1(e.target.value)}>
+                      <option value="">Select Schema</option>
+                      <option value="Number">Number</option>
+                      <option value="String">String</option>
+                    </select>
                   </div>
                 </div>
                 <div className='new-schema-table'>
@@ -95,7 +100,12 @@ const SchamaContent = () => {
                   </div>
                   <div>
                     <p>Data Type</p>
-                    <input onChange={(e) => setnewDataType2(e.target.value)} />
+                    {/* <input onChange={(e) => setnewDataType2(e.target.value)} /> */}
+                    <select id="dropdown" onChange={(e) => setnewDataType2(e.target.value)}>
+                      <option value="">Select Schema</option>
+                      <option value="Number">Number</option>
+                      <option value="String">String</option>
+                    </select>
                   </div>
                 </div>
                 <div className='new-schema-button'>
