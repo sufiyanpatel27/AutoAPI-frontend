@@ -30,6 +30,9 @@ const ControllerContent = () => {
   const [method, setmethod] = useState('');
   const [model, setmodel] = useState('');
 
+  const [showDownloadAnim, setShowDownloadAnim] = useState(0);
+  const [timeCounter, setTimeCounter] = useState(3);
+
 
 
 
@@ -44,11 +47,18 @@ const ControllerContent = () => {
   }, [routesData])
 
   const giveMeCode = () => {
+    setShowDownloadAnim(1)
+
     axios.post(Base_Url + 'create_code')
       .then((res) => {
         console.log(res.data.zipFileUrl)
         window.open(res.data.zipFileUrl, '_blank')
       })
+    setTimeout(() => {setTimeCounter(2)}, 1000)
+    setTimeout(() => {setTimeCounter(1)}, 2000)
+    setTimeout(() => {setShowDownloadAnim(0)}, 3000)
+    setTimeCounter(3)
+  
   }
 
 
@@ -223,7 +233,12 @@ const ControllerContent = () => {
             <h1>Controller</h1>
           </div>
           <div>
-            <button onClick={() => giveMeCode()} className='nextButton'>Code</button>
+            {showDownloadAnim == 0 &&
+              <button onClick={() => giveMeCode()} className='nextButton'>Code</button>
+            }
+            {showDownloadAnim == 1 &&
+              <button className='downloadingButton'>Downloading... {timeCounter}</button>
+            }
           </div>
           <div className='controllerCardsContainer'>
             {routesData.map((route) => (
