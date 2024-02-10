@@ -264,7 +264,7 @@ const ControllerContent = () => {
             ))}
             <div className='controllerInfoContainer'>
               <div className='controllerInputContainer'>
-                <input value={route} onChange={(e) => setRoute(e.target.value)} placeholder='here' style={{ width: "90%" }} />
+                <input value={route} onChange={(e) => setRoute(e.target.value)} placeholder='/' style={{ width: "90%" }} />
                 {showNewControllerButton == 0 &&
                   <button onClick={() => { setShowNewControllerCards(1); setShowNewControllerButton(1) }} className='addRouterButton'>Add</button>
                 }

@@ -133,7 +133,7 @@ const SchamaContent = () => {
                   </div>
                   <div className='card-content'>
                     <button className='addSchemaButton'>Edit</button>
-                    <p onClick={() => deleteSchema(schema)}>delete</p>
+                    <p style={{cursor: 'pointer'}} onClick={() => deleteSchema(schema)}>delete</p>
                   </div>
                 </div>
               </div>
