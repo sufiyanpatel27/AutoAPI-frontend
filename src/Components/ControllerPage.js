@@ -4,6 +4,7 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 
 
+
 const environment = process.env.REACT_APP_Environment || "dev";
 let Base_Url = "";
 if (environment == "dev") {
@@ -54,11 +55,11 @@ const ControllerContent = () => {
         console.log(res.data.zipFileUrl)
         window.open(res.data.zipFileUrl, '_blank')
       })
-    setTimeout(() => {setTimeCounter(2)}, 1000)
-    setTimeout(() => {setTimeCounter(1)}, 2000)
-    setTimeout(() => {setShowDownloadAnim(0)}, 3000)
+    setTimeout(() => { setTimeCounter(2) }, 1000)
+    setTimeout(() => { setTimeCounter(1) }, 2000)
+    setTimeout(() => { setShowDownloadAnim(0) }, 3000)
     setTimeCounter(3)
-  
+
   }
 
 
@@ -151,12 +152,13 @@ const ControllerContent = () => {
     <div className="Container">
       <div className='sideBar'>
         <div className='backButtonContainer'>
-          <a href='/' style={{ cursor: 'pointer' }}>Home</a>
+          <a href='/schema' style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>Back</a>
+          <a href='/' style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>Home</a>
         </div>
         <div className='sideBarContaint'>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Link to='/schema' style={{ cursor: 'pointer' }}>Schema</Link>
-            <Link to='/controller' style={{ cursor: 'pointer' }}>Controller</Link>
+          <div style={{ display: 'flex', flexDirection: 'column', marginTop: '20%', marginLeft: '5%', height: '8%', justifyContent: 'space-between' }}>
+            <Link style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }} to='/schema'>Schema</Link>
+            <Link style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }} to='/controller'>Controller</Link>
           </div>
         </div>
       </div>
@@ -255,7 +257,7 @@ const ControllerContent = () => {
                           <h2>{controller}</h2>
                         </div>
                         <div className='card-content'>
-                          <p>Schema Description</p>
+                          <p>Controller Description</p>
                         </div>
                         <div className='card-content'>
                           <button className='addControllerButton'>Edit</button>
@@ -267,10 +269,11 @@ const ControllerContent = () => {
                   <div className='controller-card-container'>
                     <div className='controller-card'>
                       <div className='card-content'>
-                        <h2>New Schema</h2>
+                        <h2>Add New Controller</h2>
+                        <p>Click the button to add a new schema</p>
                       </div>
                       <div className='card-content'>
-                        <button onClick={() => addNewControllerinExistingRouter(route)} className='addSchemaButton'>Add</button>
+                        <button onClick={() => addNewControllerinExistingRouter(route)} className='addSchemaButton'>Add Controller</button>
                       </div>
                     </div>
                   </div>
@@ -292,10 +295,10 @@ const ControllerContent = () => {
                   <div className='controller-card-container'>
                     <div className='controller-card'>
                       <div className='card-content'>
-                        <h2>New Controller</h2>
+                        <h2>Add New Controller</h2>
+                        <p>Click the button to add a new controller</p>
                       </div>
                       <div className='card-content'>
-                        <p>Controller Description</p>
                       </div>
                       <div className='card-content'>
                         <button className='addControllerButton' onClick={() => { setShowNewControllerPopUp(1); setShowNewControllerButton(0) }}>Add</button>

@@ -27,21 +27,22 @@ const HomePageContect = () => {
           <div style={{ display: 'flex', flexDirection: 'column', width: '80%', height: '50%', justifyContent: 'center', alignItems: 'center'}}>
             <p style={{ fontSize: 20}}>Todos</p>
             <div>
-            <li>first one to be done</li>
-            <li>second one to be done</li>
-            <li>third one to be done</li>
-            <li>fourth one to be done</li>
-            <li>fifth one to be done</li>
-            <li>sixth one to be done</li>
+            <li>Upload an existing project</li>
+            <li>Add the loading spinner</li>
+            <li>Add home, back, other icons</li>
+            <li>Add the schema description content</li>
+            <li>Add the controller description content</li>
+            <li>New route input box style change</li>
             </div>
           </div>  
         </div>
       </div>
       <div className='mainContainer'>
         <div style={{ display: 'flex', width: "100%", height: '100%', justifyContent: 'space-evenly', alignItems: 'center' }}>
-          <Link to="/schema" onClick={() => start()} >
-            <div style={{ height: '200px', width: '350px', display: 'flex', boxShadow: '7px 7px 10px rgb(97, 95, 95)', borderRadius: '10px', padding: '10px' }}>
+          <Link style={{ color: 'inherit', textDecoration: 'none' }} to="/schema" onClick={() => start()} >
+            <div style={{ height: '200px', width: '350px', display: 'flex', flexDirection: 'column', boxShadow: '7px 7px 10px rgb(97, 95, 95)', borderRadius: '10px', padding: '10px' }}>
               <h2>New Project</h2>
+              <p>Start a Fresh NODE JS Project.</p>
             </div>
           </Link>
           <div style={{ height: '200px', width: '350px', display: 'flex', flexDirection: 'column', boxShadow: '7px 7px 10px rgb(97, 95, 95)', borderRadius: '10px', padding: '10px', cursor: 'no-drop' }}>

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 
 
+
 const environment = process.env.REACT_APP_Environment || "dev";
 let Base_Url = "";
 if (environment == "dev") {
@@ -60,12 +61,13 @@ const SchamaContent = () => {
     <div className="Container">
       <div className='sideBar'>
         <div className='backButtonContainer'>
-          <a href='/' style={{ cursor: 'pointer' }}>Home</a>
+          <a href='/' style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>Back</a>
+          <a href='/' style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>Home</a>
         </div>
         <div className='sideBarContaint'>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Link to='/schema' style={{ cursor: 'pointer' }}>Schema</Link>
-            <Link to='/controller' style={{ cursor: 'pointer' }}>Controller</Link>
+          <div style={{ display: 'flex', flexDirection: 'column', marginTop: '20%', marginLeft: '5%', height: '8%', justifyContent: 'space-between' }}>
+            <Link style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }} to='/schema'>Schema</Link>
+            <Link style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }} to='/controller'>Controller</Link>
           </div>
         </div>
       </div>
@@ -120,7 +122,11 @@ const SchamaContent = () => {
           </div>
           <div className='schemaCardsContainer'>
             <div>
-              <button className='nextButton'>Next</button>
+              <Link style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }} to='/controller'>
+                <button className='nextButton'>
+                  Next
+                </button>
+              </Link>
             </div>
             {schemaData.map((schema) => (
               <div className='card-container'>
@@ -133,7 +139,7 @@ const SchamaContent = () => {
                   </div>
                   <div className='card-content'>
                     <button className='addSchemaButton'>Edit</button>
-                    <p style={{cursor: 'pointer'}} onClick={() => deleteSchema(schema)}>delete</p>
+                    <p style={{ cursor: 'pointer' }} onClick={() => deleteSchema(schema)}>delete</p>
                   </div>
                 </div>
               </div>
@@ -141,10 +147,11 @@ const SchamaContent = () => {
             <div className='card-container'>
               <div className='card'>
                 <div className='card-content'>
-                  <h2>New Schema</h2>
+                  <h2>Add New Schema</h2>
+                  <p>Click the button to add a new schema</p>
                 </div>
                 <div className='card-content'>
-                  <button onClick={() => setShowNewSchemaPopUp(1)} className='addSchemaButton'>Add</button>
+                  <button onClick={() => setShowNewSchemaPopUp(1)} className='addSchemaButton'>Add Schema</button>
                 </div>
               </div>
             </div>
