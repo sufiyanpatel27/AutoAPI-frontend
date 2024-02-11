@@ -24,7 +24,7 @@ const ControllerContent = () => {
 
   const methodOptions = ['get', 'post', 'put', 'delete']
   // new controller pop up data
-  const [route, setRoute] = useState('');
+  const [route, setRoute] = useState('/');
   const [methods, setmethods] = useState([]);
   const [models, setmodels] = useState([]);
 
@@ -146,6 +146,13 @@ const ControllerContent = () => {
       })
       .catch((err) => console.log(err));
 
+  }
+
+  const preventDelete = (e) => {
+    const input = document.getElementById('myInput')
+    if (input.value === '/' && e.keyCode === 8) {
+      e.preventDefault();
+    }
   }
 
   return (
@@ -270,7 +277,7 @@ const ControllerContent = () => {
                     <div className='controller-card'>
                       <div className='card-content'>
                         <h2>Add New Controller</h2>
-                        <p>Click the button to add a new schema</p>
+                        <p>Click the button to add a new controller</p>
                       </div>
                       <div className='card-content'>
                         <button onClick={() => addNewControllerinExistingRouter(route)} className='addSchemaButton'>Add Controller</button>
@@ -282,7 +289,7 @@ const ControllerContent = () => {
             ))}
             <div className='controllerInfoContainer'>
               <div className='controllerInputContainer'>
-                <input value={route} onChange={(e) => setRoute(e.target.value)} placeholder='/' style={{ width: "90%" }} />
+                <input value={route} id='myInput' onChange={(e) => setRoute(e.target.value)} onKeyDown={(e) => preventDelete(e)} style={{ width: "90%" }} />
                 {showNewControllerButton == 0 &&
                   <button onClick={() => { setShowNewControllerCards(1); setShowNewControllerButton(1) }} className='addRouterButton'>Add</button>
                 }
