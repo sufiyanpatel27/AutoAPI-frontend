@@ -370,3 +370,23 @@
   padding-left: 15%;
   padding-right: 15%;
 }
+
+.newSchema {
+  /* background-color: red; */
+}
+
+.schemaHeader {
+  /* background-color: greenyellow; */
+  display: flex;
+  justify-content: space-between;
+}
+
+.schemaHeaderContent {
+  /* background-color: blueviolet; */
+}
+
+.schemaContent {
+  display: flex;
+  justify-content: space-between;
+  /* background-color: aqua; */
+}

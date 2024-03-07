@@ -87,7 +87,7 @@ const ControllerContent = () => {
         setShowNewControllerPopUpExisting(0)
       })
       .catch((err) => console.log(err))
-    setRoute("");
+    setRoute("/");
     setmethod("");
     setmodel("");
     setmethods([]);
@@ -111,7 +111,7 @@ const ControllerContent = () => {
       .then(() => {
         setShowNewControllerPopUp(0);
         setShowNewControllerCards(0);
-        setRoute("")
+        setRoute("/")
         setmethod("")
         setmodel("")
         setmodels([])
@@ -138,7 +138,7 @@ const ControllerContent = () => {
 
     axios.post(Base_Url + 'create_router', newController)
       .then(() => {
-        setRoute("")
+        setRoute("/")
         setmethod("")
         setmodel("")
         setmodels([])
@@ -149,7 +149,7 @@ const ControllerContent = () => {
   }
 
   const preventDelete = (e) => {
-    const input = document.getElementById('myInput')
+    const input = document.querySelector('.myInput');
     if (input.value === '/' && e.keyCode === 8) {
       e.preventDefault();
     }
@@ -227,7 +227,7 @@ const ControllerContent = () => {
                 <div className='new-schema-button'>
                   <button onClick={() => {
                     setShowNewControllerPopUpExisting(0);
-                    setRoute("");
+                    setRoute("/");
                     setmethod("");
                     setmodel("");
                     setmethods([]);
@@ -289,12 +289,12 @@ const ControllerContent = () => {
             ))}
             <div className='controllerInfoContainer'>
               <div className='controllerInputContainer'>
-                <input value={route} id='myInput' onChange={(e) => setRoute(e.target.value)} onKeyDown={(e) => preventDelete(e)} style={{ width: "90%" }} />
+                <input value={route} className='myInput' onChange={(e) => setRoute(e.target.value)} onKeyDown={(e) => preventDelete(e)} style={{ width: "90%" }} />
                 {showNewControllerButton == 0 &&
                   <button onClick={() => { setShowNewControllerCards(1); setShowNewControllerButton(1) }} className='addRouterButton'>Add</button>
                 }
                 {showNewControllerButton == 1 &&
-                  <button onClick={() => { setShowNewControllerCards(0); setShowNewControllerButton(0); setRoute("") }} className='addRouterButton'>Cancel</button>
+                  <button onClick={() => { setShowNewControllerCards(0); setShowNewControllerButton(0); setRoute("/") }} className='addRouterButton'>Cancel</button>
                 }
               </div>
               {showNewControllerCards == 1 &&

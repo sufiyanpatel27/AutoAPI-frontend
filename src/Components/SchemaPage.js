@@ -20,10 +20,18 @@ const SchamaContent = () => {
 
   // new schema pop up data
   const [newSchemaName, setNewSchemaName] = useState("");
-  const [newTableName1, setnewTableName1] = useState("");
-  const [newDataType1, setnewDataType1] = useState("");
-  const [newTableName2, setnewTableName2] = useState("");
-  const [newDataType2, setnewDataType2] = useState("");
+  const [newTableName, setnewTableName] = useState("");
+  const [newDataType, setnewDataType] = useState("");
+
+  const [todos, setTodos] = useState([]);
+  const [todosprop, setTodosProp] = useState([]);
+  const [todosprop2, setTodosProp2] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [inputType, setInputType] = useState('');
+  const [inputisRequired, setInputIsRequired] = useState(false);
+  const [editingIndex, setEditingIndex] = useState(null);
+
+
 
 
   useEffect(() => {
@@ -31,21 +39,87 @@ const SchamaContent = () => {
       .then((res) => setSchemaData(res.data))
   }, [schemaData])
 
-  const addNewSchema = () => {
-    const newSchema =
-    {
-      "schemaName": newSchemaName,
-      "schema": {
-        [newTableName1]: {
-          "type": newDataType1,
-          "required": true
-        },
-        [newTableName2]: {
-          "type": newDataType2,
-          "required": true
-        }
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleType = (event) => {
+    setInputType(event.target.value);
+  };
+
+  const handleIsRequired = (event) => {
+      setInputIsRequired(event.target.checked);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (inputValue.trim() !== '' && inputType.trim() !== '') {
+      if (editingIndex !== null) {
+        // Update todo
+        const newTodos = [...todos];
+        newTodos[editingIndex] = inputValue;
+        setTodos(newTodos);
+        // Update props
+        const newTodosProps = [...todosprop];
+        newTodosProps[editingIndex] = inputType;
+        setTodosProp(newTodosProps);
+        // Update is required
+        const newTodosProps2 = [...todosprop2];
+        newTodosProps2[editingIndex] = inputisRequired;
+        setTodosProp2(newTodosProps2);
+
+        setEditingIndex(null);
+      } else {
+        // Add new todo
+        setTodos([...todos, inputValue]);
+        setTodosProp([...todosprop, inputType]);
+        setTodosProp2([...todosprop2, inputisRequired]);
       }
+      setInputValue('');
+      setInputType('');
+      setInputIsRequired('');
     }
+  };
+
+  const handleEdit = (index) => {
+    setInputValue(todos[index]);
+    setInputType(todosprop[index]);
+    setInputIsRequired(todosprop2[index])
+    setEditingIndex(index);
+  };
+
+  const handleDelete = (index) => {
+    const newTodos = todos.filter((todo, i) => i !== index);
+    const newTodosProps = todosprop.filter((todoprop, i) => i !== index);
+    const newTodosProps2 = todosprop2.filter((todoprop2, i) => i !== index);
+    setTodos(newTodos);
+    setTodosProp(newTodosProps);
+    setTodosProp2(newTodosProps2)
+    if (editingIndex === index) {
+      setEditingIndex(null);
+      setInputValue('');
+      setInputType('');
+      setInputIsRequired('')
+    }
+  };
+
+
+  const addNewSchema = () => {
+
+    let schema = {}
+    todos.map((item, index) => {
+      schema[item] = {
+        "type": todosprop[index],
+        "required": todosprop2[index]
+      }
+    })
+
+    const newSchema = {
+      "schemaName": newSchemaName,
+      "schema": schema
+    }
+
     axios.post(Base_Url + 'create_schema', newSchema)
       .then((res) => setShowNewSchemaPopUp(0))
       .catch((err) => console.log(err))
@@ -56,6 +130,14 @@ const SchamaContent = () => {
       .then()
       .catch((err) => console.log(err))
   }
+
+
+
+
+
+
+
+
 
   return (
     <div className="Container">
@@ -77,38 +159,48 @@ const SchamaContent = () => {
             <div className='new-schema-container'>
               <div className='new-schema-card'>
                 <div>
-                  <p>Schema Nme</p>
+                  <h2>Schema Nme</h2>
                   <input onChange={(e) => setNewSchemaName(e.target.value)} />
                 </div>
-                <div className='new-schema-table'>
+                <div className='newSchema'>
                   <div>
-                    <p>Table Nme</p>
-                    <input onChange={(e) => setnewTableName1(e.target.value)} />
+                    <div style={{display: 'flex', justifyContent: 'space-between', }}>
+                      <div style={{ width: '25%'}}><p>Column Name</p></div>
+                      <div style={{ width: '25%'}}><p>Data Type</p></div>
+                      <div style={{ width: '25%'}}><p>Is Required</p></div>
+                      <div style={{ width: '25%'}}><p>Actions</p></div>
+                    </div>
+                    {todos.map((todo, index) => (
+                      <div key={index} style={{display: 'flex', justifyContent: 'space-between'}}>
+                        <div style={{width: '25%'}}>{todo}</div>
+                        <div style={{width: '25%'}}>{todosprop[index]}</div>
+                        <div style={{width: '25%'}}><input checked={todosprop2[index]} type="checkbox" id="myCheckbox" name="myCheckbox" /></div>
+                        <div style={{width: '25%'}}>
+                        <button onClick={() => handleEdit(index)}>Edit</button>
+                        <button onClick={() => handleDelete(index)}>Delete</button>
+                        </div>
+                      </div>
+                    ))}
+                    <div style={{color: 'white'}}>line</div>
+                    <form onSubmit={handleSubmit} style={{display: 'flex', justifyContent: 'space-between'}}>
+                      <div style={{width: '25%'}}><input
+                        style={{width: '90%'}}
+                        type="text"
+                        value={inputValue}
+                        onChange={handleChange}
+                        placeholder="Add/Edit Todo"
+                      /></div>
+                      <div style={{width: '25%'}}><select value={inputType} style={{width: '90%'}} onChange={handleType}>
+                        <option value="">Select Schema</option>
+                        <option value="Number">Number</option>
+                        <option value="String">String</option>
+                      </select></div>
+                      <div style={{width: '25%'}}><input checked={inputisRequired} onChange={handleIsRequired} type="checkbox" id="myCheckbox" name="myCheckbox" /></div>
+                      <div style={{width: '25%'}}><button type="submit">{editingIndex !== null ? 'Update' : 'Add'}</button></div>
+                    </form>
                   </div>
-                  <div>
-                    <p>Data Type</p>
-                    {/* <input onChange={(e) => setnewDataType1(e.target.value)} /> */}
-                    <select id="dropdown" onChange={(e) => setnewDataType1(e.target.value)}>
-                      <option value="">Select Schema</option>
-                      <option value="Number">Number</option>
-                      <option value="String">String</option>
-                    </select>
-                  </div>
-                </div>
-                <div className='new-schema-table'>
-                  <div>
-                    <p>Table Nme</p>
-                    <input onChange={(e) => setnewTableName2(e.target.value)} />
-                  </div>
-                  <div>
-                    <p>Data Type</p>
-                    {/* <input onChange={(e) => setnewDataType2(e.target.value)} /> */}
-                    <select id="dropdown" onChange={(e) => setnewDataType2(e.target.value)}>
-                      <option value="">Select Schema</option>
-                      <option value="Number">Number</option>
-                      <option value="String">String</option>
-                    </select>
-                  </div>
+
+
                 </div>
                 <div className='new-schema-button'>
                   <button onClick={() => setShowNewSchemaPopUp(0)} className='addSchemaButton'>Cancel</button>
