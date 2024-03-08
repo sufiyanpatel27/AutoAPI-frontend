@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 
+import SideBar from './ChildComponents/Sidebar';
+
 
 
 const environment = process.env.REACT_APP_Environment || "dev";
@@ -18,7 +20,6 @@ const ControllerContent = () => {
   const [routesData, setroutesData] = useState([]);
   const [SchemaData, setSchemaData] = useState([]);
   const [showNewControllerPopUp, setShowNewControllerPopUp] = useState(0);
-  const [showNewControllerPopUpExisting, setShowNewControllerPopUpExisting] = useState(0);
   const [showNewControllerCards, setShowNewControllerCards] = useState(0);
   const [showNewControllerButton, setShowNewControllerButton] = useState(0);
 
@@ -65,34 +66,10 @@ const ControllerContent = () => {
 
 
   const addNewControllerinExistingRouter = (route) => {
-    setShowNewControllerPopUpExisting(1);
+    setShowNewControllerPopUp(1);
     setRoute(route[0])
     setmethods(route[1])
     setmodels(route[2])
-  }
-
-
-  const addNewControllerExisting = () => {
-    models.push(model)
-    methods.push(method)
-
-    const newController = {
-      "route": route,
-      "methods": methods,
-      "models": models
-    }
-
-    axios.post(Base_Url + 'create_router', newController)
-      .then((res) => {
-        setShowNewControllerPopUpExisting(0)
-      })
-      .catch((err) => console.log(err))
-    setRoute("/");
-    setmethod("");
-    setmodel("");
-    setmethods([]);
-    setmodels([]);
-
   }
 
 
@@ -157,18 +134,7 @@ const ControllerContent = () => {
 
   return (
     <div className="Container">
-      <div className='sideBar'>
-        <div className='backButtonContainer'>
-          <a href='/schema' style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>Back</a>
-          <a href='/' style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>Home</a>
-        </div>
-        <div className='sideBarContaint'>
-          <div style={{ display: 'flex', flexDirection: 'column', marginTop: '20%', marginLeft: '5%', height: '8%', justifyContent: 'space-between' }}>
-            <Link style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }} to='/schema'>Schema</Link>
-            <Link style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }} to='/controller'>Controller</Link>
-          </div>
-        </div>
-      </div>
+      <SideBar />
       <div className='mainContainer'>
         <div className='controllerContainer'>
           {showNewControllerPopUp == 1 &&
@@ -201,42 +167,35 @@ const ControllerContent = () => {
               </div>
             </div>
           }
-          {showNewControllerPopUpExisting == 1 &&
+          {showNewControllerPopUp == 1 &&
             <div className='new-schema-container'>
-              <div className='new-schema-card'>
-                <div>
-                  <p>Schema Name</p>
-                  <select onChange={(e) => setmodel(e.target.value)} id="dropdown" >
-                    <option value="">Select Schema</option>
-                    {SchemaData.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  <p>Method </p>
-                  <select onChange={(e) => setmethod(e.target.value)} id="dropdown" >
-                    <option value="">Select Method</option>
-                    {methodOptions.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className='new-schema-button'>
-                  <button onClick={() => {
-                    setShowNewControllerPopUpExisting(0);
-                    setRoute("/");
-                    setmethod("");
-                    setmodel("");
-                    setmethods([]);
-                    setmodels([])
-                  }} className='addSchemaButton'>Cancel</button>
-                  <button onClick={() => { addNewControllerExisting() }} className='addSchemaButton'>Add</button>
-                </div>
+            <div className='new-schema-card'>
+              <div>
+                <p>Schema Name</p>
+                <select onChange={(e) => setmodel(e.target.value)} id="dropdown" >
+                  <option value="">Select Schema</option>
+                  {SchemaData.map((option, index) => (
+                    <option key={index} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+                <p>Method </p>
+                <select onChange={(e) => setmethod(e.target.value)} id="dropdown" >
+                  <option value="">Select Method</option>
+                  {methodOptions.map((option, index) => (
+                    <option key={index} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className='new-schema-button'>
+                <button onClick={() => setShowNewControllerPopUp(0)} className='addSchemaButton'>Cancel</button>
+                <button onClick={() => addNewController()} className='addSchemaButton'>Add</button>
               </div>
             </div>
+          </div>
           }
           <div className='header'>
             <h1>Controller</h1>
