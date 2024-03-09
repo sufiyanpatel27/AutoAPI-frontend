@@ -36,6 +36,20 @@
   height: 100%;
 }
 
+@keyframes moveRight {
+  0% {
+    box-shadow: 1px 1px 10px rgb(191, 189, 189);
+  }
+
+  50% {
+    box-shadow: 1px 15px 20px rgb(191, 189, 189);
+  }
+
+  100% {
+    box-shadow: 1px 1px 10px rgb(191, 189, 189);
+  }
+}
+
 
 
 
@@ -51,16 +65,19 @@
 
 .schemaCardsContainer {
   display: flex;
-  flex-wrap:wrap;
-  justify-content:start;
+  flex-wrap: wrap;
+  justify-content: start;
   height: 100%;
   overflow: auto;
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: transparent transparent; /* For Firefox */
+  scrollbar-width: thin;
+  /* For Firefox */
+  scrollbar-color: transparent transparent;
+  /* For Firefox */
 }
 
 .schemaCardsContainer::-webkit-scrollbar {
-  width: 10px; /* Adjust the width as needed */
+  width: 10px;
+  /* Adjust the width as needed */
   border-radius: 8px;
 }
 
@@ -103,15 +120,21 @@
   font-weight: bold;
   text-align: center;
   cursor: pointer;
-  border: 2px solid black; /* Border color */
-  color: #ffffff; /* Text color */
-  background-color: black; /* Background color */
-  border-radius: 5px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  border: 2px solid black;
+  /* Border color */
+  color: #ffffff;
+  /* Text color */
+  background-color: black;
+  /* Background color */
+  border-radius: 5px;
+  /* Rounded corners */
+  transition: background-color 0.3s ease;
+  /* Smooth transition on hover */
 }
 
 .addSchemaButton:hover {
-  background-color: white; /* Change background color on hover */
+  background-color: white;
+  /* Change background color on hover */
   color: black;
 }
 
@@ -123,18 +146,24 @@
   font-weight: bold;
   text-align: center;
   cursor: pointer;
-  border: 2px solid black; /* Border color */
-  color: #ffffff; /* Text color */
-  background-color: black; /* Background color */
-  border-radius: 5px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  border: 2px solid black;
+  /* Border color */
+  color: #ffffff;
+  /* Text color */
+  background-color: black;
+  /* Background color */
+  border-radius: 5px;
+  /* Rounded corners */
+  transition: background-color 0.3s ease;
+  /* Smooth transition on hover */
   margin-top: 38%;
   margin-left: 65%;
   box-shadow: 7px 7px 10px rgb(97, 95, 95);
 }
 
 .nextButton:hover {
-  background-color: white; /* Change background color on hover */
+  background-color: white;
+  /* Change background color on hover */
   color: black;
 }
 
@@ -184,14 +213,15 @@
 
 .controllerCardsContainer {
   display: flex;
-  justify-content:start;
+  justify-content: start;
   height: 100%;
   flex-direction: column;
   overflow: auto;
 }
 
 .controllerCardsContainer::-webkit-scrollbar {
-  width: 10px; /* Adjust the width as needed */
+  width: 10px;
+  /* Adjust the width as needed */
   border-radius: 8px;
 }
 
@@ -219,7 +249,8 @@
 }
 
 .controllerMethodsContainer::-webkit-scrollbar {
-  width: 1px; /* Adjust the width as needed */
+  width: 1px;
+  /* Adjust the width as needed */
   height: 10px;
   border-radius: 8px;
 }
@@ -266,15 +297,21 @@
   font-weight: bold;
   text-align: center;
   cursor: pointer;
-  border: 2px solid black; /* Border color */
-  color: #ffffff; /* Text color */
-  background-color: black; /* Background color */
-  border-radius: 5px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  border: 2px solid black;
+  /* Border color */
+  color: #ffffff;
+  /* Text color */
+  background-color: black;
+  /* Background color */
+  border-radius: 5px;
+  /* Rounded corners */
+  transition: background-color 0.3s ease;
+  /* Smooth transition on hover */
 }
 
 .addControllerButton:hover {
-  background-color: white; /* Change background color on hover */
+  background-color: white;
+  /* Change background color on hover */
   color: black;
 }
 
@@ -285,15 +322,21 @@
   font-weight: bold;
   text-align: center;
   cursor: pointer;
-  border: 2px solid black; /* Border color */
-  color: #ffffff; /* Text color */
-  background-color: black; /* Background color */
-  border-radius: 5px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  border: 2px solid black;
+  /* Border color */
+  color: #ffffff;
+  /* Text color */
+  background-color: black;
+  /* Background color */
+  border-radius: 5px;
+  /* Rounded corners */
+  transition: background-color 0.3s ease;
+  /* Smooth transition on hover */
 }
 
 .addRouterButton:hover {
-  background-color: white; /* Change background color on hover */
+  background-color: white;
+  /* Change background color on hover */
   color: black;
 }
 
@@ -301,15 +344,20 @@
   position: fixed;
   display: inline-block;
   padding: 10px 20px;
-  font-size: 16px;  
+  font-size: 16px;
   font-weight: bold;
   text-align: center;
   cursor: pointer;
-  border: 2px solid black; /* Border color */
-  color: #ffffff; /* Text color */
-  background-color: black; /* Background color */
-  border-radius: 5px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  border: 2px solid black;
+  /* Border color */
+  color: #ffffff;
+  /* Text color */
+  background-color: black;
+  /* Background color */
+  border-radius: 5px;
+  /* Rounded corners */
+  transition: background-color 0.3s ease;
+  /* Smooth transition on hover */
   margin-top: 38%;
   margin-left: 65%;
   box-shadow: 7px 7px 10px rgb(97, 95, 95);
@@ -319,22 +367,27 @@
   position: fixed;
   display: inline-block;
   padding: 10px 20px;
-  font-size: 16px;  
+  font-size: 16px;
   font-weight: bold;
   text-align: center;
   cursor: default;
-  border: 2px solid black; /* Border color */
-  background-color: white; /* Change background color on hover */
+  border: 2px solid black;
+  /* Border color */
+  background-color: white;
+  /* Change background color on hover */
   color: black;
-  border-radius: 5px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  border-radius: 5px;
+  /* Rounded corners */
+  transition: background-color 0.3s ease;
+  /* Smooth transition on hover */
   margin-top: 38%;
   margin-left: 60%;
   box-shadow: 7px 7px 10px rgb(97, 95, 95);
 }
 
 .nextButton:hover {
-  background-color: white; /* Change background color on hover */
+  background-color: white;
+  /* Change background color on hover */
   color: black;
 }
 
