@@ -37,6 +37,12 @@ const ControllerContent = () => {
 
 
 
+  //
+  const [editButtonActive, setEditButtonActive] = useState(0)
+  const [editIndex, setEditIndex] = useState(0);
+
+
+
 
   useEffect(() => {
     axios.get(Base_Url + "routers")
@@ -70,6 +76,44 @@ const ControllerContent = () => {
     setRoute(route[0])
     setmethods(route[1])
     setmodels(route[2])
+  }
+
+  const editController = (route, controllersData) => {
+    setEditButtonActive(1)
+    setShowNewControllerPopUp(1);
+    setRoute(route[0])
+    setmethods(route[1])
+    setmodels(route[2])
+    setEditIndex(route[1].indexOf(controllersData))
+    setmodel(route[2][editIndex])
+    setmethod(route[1][editIndex])
+  }
+
+  const editAndUpdateController = (routesData, editIndex) => {
+    console.log(routesData[0])
+    console.log(routesData[0][1][editIndex])
+
+    // new controller object here
+    models[editIndex] = model
+    methods[editIndex] = method
+    const newController = {
+      "route": route,
+      "methods": methods,
+      "models": models
+    }
+
+    axios.post(Base_Url + 'create_router', newController)
+      .then(() => {
+        setShowNewControllerPopUp(0);
+        setEditButtonActive(0)
+        setShowNewControllerCards(0);
+        setRoute("/")
+        setmethod("")
+        setmodel("")
+        setmodels([])
+        setmethods([])
+      })
+      .catch((err) => console.log(err));
   }
 
 
@@ -169,33 +213,43 @@ const ControllerContent = () => {
           }
           {showNewControllerPopUp == 1 &&
             <div className='new-schema-container'>
-            <div className='new-schema-card'>
-              <div>
-                <p>Schema Name</p>
-                <select onChange={(e) => setmodel(e.target.value)} id="dropdown" >
-                  <option value="">Select Schema</option>
-                  {SchemaData.map((option, index) => (
-                    <option key={index} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-                <p>Method </p>
-                <select onChange={(e) => setmethod(e.target.value)} id="dropdown" >
-                  <option value="">Select Method</option>
-                  {methodOptions.map((option, index) => (
-                    <option key={index} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className='new-schema-button'>
-                <button onClick={() => setShowNewControllerPopUp(0)} className='addSchemaButton'>Cancel</button>
-                <button onClick={() => addNewController()} className='addSchemaButton'>Add</button>
+              <div className='new-schema-card'>
+                <div>
+                  <p>Schema Name</p>
+                  <select value={model} onChange={(e) => setmodel(e.target.value)} id="dropdown" >
+                    <option value="">Select Schema</option>
+                    {SchemaData.map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  <p>Method </p>
+                  <select value={method} onChange={(e) => setmethod(e.target.value)} id="dropdown" >
+                    <option value="">Select Method</option>
+                    {methodOptions.map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {editButtonActive == 0 &&
+                  <div className='new-schema-button'>
+
+                    <button onClick={() => setShowNewControllerPopUp(0)} className='addSchemaButton'>Cancel</button>
+                    <button onClick={() => addNewController()} className='addSchemaButton'>Add</button>
+                  </div>
+                }
+                {editButtonActive == 1 &&
+                  <div className='new-schema-button'>
+
+                    <button onClick={() => { setShowNewControllerPopUp(0); setEditButtonActive(0) }} className='addSchemaButton'>Cancel</button>
+                    <button onClick={() => editAndUpdateController(routesData, editIndex)} className='addSchemaButton'>Update</button>
+                  </div>
+                }
               </div>
             </div>
-          </div>
           }
           <div className='header'>
             <h1>Controller</h1>
@@ -226,7 +280,7 @@ const ControllerContent = () => {
                           <p>Controller Description</p>
                         </div>
                         <div className='card-content'>
-                          <button className='addControllerButton'>Edit</button>
+                          <button className='addControllerButton' onClick={() => editController(route, controller)}>Edit</button>
                           <p onClick={() => deleteController(route, controller)}>delete</p>
                         </div>
                       </div>
