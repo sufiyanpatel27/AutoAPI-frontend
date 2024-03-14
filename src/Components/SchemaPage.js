@@ -20,6 +20,8 @@ const SchamaContent = () => {
   const [schemaData, setSchemaData] = useState([]);
   const [showNewSchemaPopUp, setShowNewSchemaPopUp] = useState(0);
 
+  const [currSchema, setCurrSchema] = useState([])
+
   useEffect(() => {
     axios.get(Base_Url + "schemas")
       .then((res) => setSchemaData(res.data))
@@ -31,6 +33,15 @@ const SchamaContent = () => {
 
   const closeNewSchemaPopUp = () => {
     setShowNewSchemaPopUp(0)
+  }
+
+  const updateSchema = (data) => {
+    setCurrSchema(data)
+  }
+
+  const editSchema = (schema) => {
+    setShowNewSchemaPopUp(1);
+    setCurrSchema(schema)
   }
 
   const deleteSchema = (schema) => {
@@ -45,7 +56,7 @@ const SchamaContent = () => {
       <div className='mainContainer'>
         <div className='schemaContainer'>
           {showNewSchemaPopUp == 1 &&
-            <NewSchema openPopUp={openNewSchemaPopUp} closePopUp={closeNewSchemaPopUp} />
+            <NewSchema openPopUp={openNewSchemaPopUp} closePopUp={closeNewSchemaPopUp} currSchema={currSchema} updateSchema={updateSchema}/>
           }
           <div className='header'>
             <h1>Schema</h1>
@@ -62,14 +73,14 @@ const SchamaContent = () => {
               <div className='card-container'>
                 <div className='card'>
                   <div className='card-content'>
-                    <h2>{schema}</h2>
+                    <h2>{schema[0]}</h2>
                   </div>
                   <div className='card-content'>
                     <p>Schema Description</p>
                   </div>
                   <div className='card-content'>
-                    <button className='addSchemaButton'>Edit</button>
-                    <p style={{ cursor: 'pointer' }} onClick={() => deleteSchema(schema)}>delete</p>
+                    <button onClick={() => {editSchema(schema)}} className='addSchemaButton'>Edit</button>
+                    <p style={{ cursor: 'pointer' }} onClick={() => deleteSchema(schema[0])}>delete</p>
                   </div>
                 </div>
               </div>

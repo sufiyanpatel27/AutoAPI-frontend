@@ -189,8 +189,8 @@ const ControllerContent = () => {
                   <select onChange={(e) => setmodel(e.target.value)} id="dropdown" >
                     <option value="">Select Schema</option>
                     {SchemaData.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
+                      <option key={index} value={option[0]}>
+                        {option[0]}
                       </option>
                     ))}
                   </select>
@@ -219,8 +219,8 @@ const ControllerContent = () => {
                   <select value={model} onChange={(e) => setmodel(e.target.value)} id="dropdown" >
                     <option value="">Select Schema</option>
                     {SchemaData.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
+                      <option key={index} value={option[0]}>
+                        {option[0]}
                       </option>
                     ))}
                   </select>

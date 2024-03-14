@@ -10,7 +10,7 @@ if (environment == "dev") {
     Base_Url = process.env.REACT_APP_Base_URL;
 }
 
-const NewSchema = ({ openPopUp, closePopUp }) => {
+const NewSchema = ({ openPopUp, closePopUp, currSchema, updateSchema }) => {
 
     const [newSchemaName, setNewSchemaName] = useState("");
     const [newTableName, setnewTableName] = useState("");
@@ -23,6 +23,26 @@ const NewSchema = ({ openPopUp, closePopUp }) => {
     const [inputType, setInputType] = useState('');
     const [inputisRequired, setInputIsRequired] = useState(false);
     const [editingIndex, setEditingIndex] = useState(null);
+
+    useEffect(() => {
+        if (currSchema.length > 0) {
+            setNewSchemaName(currSchema[0])
+
+            let temp_todos = []
+            let temp_todosprop = []
+            let temp_todosprop2 = []
+            for (let key in currSchema[1]) {
+                if (currSchema[1].hasOwnProperty(key)) {
+                    temp_todos.push(key)
+                    temp_todosprop.push(currSchema[1][key].type)
+                    temp_todosprop2.push(currSchema[1][key].required)
+                }
+            }
+            setTodos(temp_todos)
+            setTodosProp(temp_todosprop)
+            setTodosProp2(temp_todosprop2)
+        }
+    }, [])
 
 
     const handleChange = (event) => {
@@ -63,7 +83,7 @@ const NewSchema = ({ openPopUp, closePopUp }) => {
             }
             setInputValue('');
             setInputType('');
-            setInputIsRequired('');
+            setInputIsRequired(false);
         }
     };
 
@@ -85,7 +105,7 @@ const NewSchema = ({ openPopUp, closePopUp }) => {
             setEditingIndex(null);
             setInputValue('');
             setInputType('');
-            setInputIsRequired('')
+            setInputIsRequired(false)
         }
     };
 
@@ -117,7 +137,7 @@ const NewSchema = ({ openPopUp, closePopUp }) => {
             <div className='new-schema-card'>
                 <div>
                     <h2>Schema Nme</h2>
-                    <input onChange={(e) => setNewSchemaName(e.target.value)} />
+                    <input defaultValue={newSchemaName} onChange={(e) => setNewSchemaName(e.target.value)} />
                 </div>
                 <div className='newSchema'>
                     <div>
