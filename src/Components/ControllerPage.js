@@ -23,14 +23,23 @@ const ControllerContent = () => {
   const [showNewControllerCards, setShowNewControllerCards] = useState(0);
   const [showNewControllerButton, setShowNewControllerButton] = useState(0);
 
-  const methodOptions = ['get', 'post', 'put', 'delete']
+  const requestOptions = ['get', 'post', 'put', 'delete'];
+  const getRequestOptions = ['find()', 'findById()', 'findOne()'];
+  const postRequestOptions = ['save()'];
+  const putRequestOptions = ['findByIdAndUpdate()'];
+  const deleteRequestOptions = ['findByIdAndDelete()', 'findOneAndDelete()'];
+
   // new controller pop up data
   const [route, setRoute] = useState('/');
-  const [methods, setmethods] = useState([]);
+  const [requests, setrequests] = useState([]);
+  const [methods, setMethods] = useState([]);
   const [models, setmodels] = useState([]);
+  const [queryParams, setQueryParams] = useState([])
 
-  const [method, setmethod] = useState('');
+  const [request, setrequest] = useState('');
+  const [method, setMethod] = useState('');
   const [model, setmodel] = useState('');
+  const [queryParam, setQueryParam] = useState('')
 
   const [showDownloadAnim, setShowDownloadAnim] = useState(0);
   const [timeCounter, setTimeCounter] = useState(3);
@@ -74,7 +83,7 @@ const ControllerContent = () => {
   const addNewControllerinExistingRouter = (route) => {
     setShowNewControllerPopUp(1);
     setRoute(route[0])
-    setmethods(route[1])
+    setrequests(route[1])
     setmodels(route[2])
   }
 
@@ -82,11 +91,16 @@ const ControllerContent = () => {
     setEditButtonActive(1)
     setShowNewControllerPopUp(1);
     setRoute(route[0])
-    setmethods(route[1])
+    setrequests(route[1])
     setmodels(route[2])
+    setMethods(route[3])
+    setQueryParams(route[4])
     setEditIndex(route[1].indexOf(controllersData))
     setmodel(route[2][editIndex])
-    setmethod(route[1][editIndex])
+    setrequest(route[1][editIndex])
+    setMethod(route[3][editIndex])
+    setQueryParam(route[4][editIndex])
+
   }
 
   const editAndUpdateController = (routesData, editIndex) => {
@@ -95,12 +109,18 @@ const ControllerContent = () => {
 
     // new controller object here
     models[editIndex] = model
+    requests[editIndex] = request
     methods[editIndex] = method
+    queryParams[editIndex] = queryParam
     const newController = {
       "route": route,
+      "requests": requests,
       "methods": methods,
+      "quryparams": queryParams,
       "models": models
     }
+
+    console.log(newController)
 
     axios.post(Base_Url + 'create_router', newController)
       .then(() => {
@@ -108,10 +128,14 @@ const ControllerContent = () => {
         setEditButtonActive(0)
         setShowNewControllerCards(0);
         setRoute("/")
-        setmethod("")
+        setrequest("")
         setmodel("")
+        setMethod("")
+        setQueryParam("")
         setmodels([])
-        setmethods([])
+        setrequests([])
+        setMethods([])
+        setQueryParams([])
       })
       .catch((err) => console.log(err));
   }
@@ -120,11 +144,15 @@ const ControllerContent = () => {
 
   const addNewController = () => {
     models.push(model)
+    requests.push(request)
     methods.push(method)
+    queryParams.push(queryParam)
 
     const newController = {
       "route": route,
+      "requests": requests,
       "methods": methods,
+      "quryparams": queryParams,
       "models": models
     }
 
@@ -133,12 +161,30 @@ const ControllerContent = () => {
         setShowNewControllerPopUp(0);
         setShowNewControllerCards(0);
         setRoute("/")
-        setmethod("")
+        setrequest("")
         setmodel("")
+        setMethod("")
+        setQueryParam("")
         setmodels([])
-        setmethods([])
+        setrequests([])
+        setMethods([])
+        setQueryParams([])
       })
       .catch((err) => console.log(err));
+  }
+
+  const cancel = () => {
+    setShowNewControllerPopUp(0)
+    setEditButtonActive(0)
+    setRoute("/")
+    setrequest("")
+    setmodel("")
+    setMethod("")
+    setQueryParam("")
+    setmodels([])
+    setrequests([])
+    setMethods([])
+    setQueryParams([])
   }
 
   const deleteRouter = (router) => {
@@ -148,22 +194,35 @@ const ControllerContent = () => {
   }
 
   const deleteController = (route, controller) => {
+    console.log(route)
+    console.log(controller)
     route[1].splice(route[1].indexOf(controller), 1)
     route[2].splice(route[1].indexOf(controller), 1)
+    route[3].splice(route[1].indexOf(controller), 1)
+    route[4].splice(route[1].indexOf(controller), 1)
+
 
     const newController = {
       "route": route[0],
-      "methods": route[1],
-      "models": route[2]
+      "requests": route[1],
+      "models": route[2],
+      "quryparams": route[4],
+      "methods": route[3]
     }
+
+    console.log(newController)
 
     axios.post(Base_Url + 'create_router', newController)
       .then(() => {
         setRoute("/")
-        setmethod("")
+        setrequest("")
         setmodel("")
+        setMethod("")
+        setQueryParam("")
         setmodels([])
-        setmethods([])
+        setrequests([])
+        setMethods([])
+        setQueryParams([])
       })
       .catch((err) => console.log(err));
 
@@ -194,10 +253,10 @@ const ControllerContent = () => {
                       </option>
                     ))}
                   </select>
-                  <p>Method </p>
-                  <select onChange={(e) => setmethod(e.target.value)} id="dropdown" >
-                    <option value="">Select Method</option>
-                    {methodOptions.map((option, index) => (
+                  <p>Request </p>
+                  <select onChange={(e) => setrequest(e.target.value)} id="dropdown" >
+                    <option value="">Select request</option>
+                    {requestOptions.map((option, index) => (
                       <option key={index} value={option}>
                         {option}
                       </option>
@@ -224,27 +283,91 @@ const ControllerContent = () => {
                       </option>
                     ))}
                   </select>
-                  <p>Method </p>
-                  <select value={method} onChange={(e) => setmethod(e.target.value)} id="dropdown" >
-                    <option value="">Select Method</option>
-                    {methodOptions.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '70%' }}>
+                    <div>
+                      <p>Request </p>
+                      <select value={request} onChange={(e) => setrequest(e.target.value)} id="dropdown" >
+                        <option value="">Select request</option>
+                        {requestOptions.map((option, index) => (
+                          <option key={index} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {/* from here */}
+                    {request === "get" &&
+                      <div>
+                        <p>Method </p>
+                        <select value={method} onChange={(e) => setMethod(e.target.value)} id="dropdown" >
+                          <option value="">Select method</option>
+                          {getRequestOptions.map((option, index) => (
+                            <option key={index} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    }
+                    {request === "post" &&
+                      <div>
+                        <p>Method </p>
+                        <select value={method} onChange={(e) => setMethod(e.target.value)} id="dropdown" >
+                          <option value="">Select method</option>
+                          {postRequestOptions.map((option, index) => (
+                            <option key={index} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    }
+                    {request === "put" &&
+                      <div>
+                        <p>Method </p>
+                        <select value={method} onChange={(e) => setMethod(e.target.value)} id="dropdown" >
+                          <option value="">Select method</option>
+                          {putRequestOptions.map((option, index) => (
+                            <option key={index} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    }
+                    {request === "delete" &&
+                      <div>
+                        <p>Method </p>
+                        <select value={method} onChange={(e) => setMethod(e.target.value)} id="dropdown" >
+                          <option value="">Select method</option>
+                          {deleteRequestOptions.map((option, index) => (
+                            <option key={index} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    }
+                    {(method === "findOne()" || method === "findOneAndDelete()") && (
+                      <div>
+                        <p>Query Param</p>
+                        <input value={queryParam} placeholder='enter the variable name' onChange={(e) => setQueryParam(e.target.value)} />
+                      </div>
+                    )}
+                  </div>
+                  {/* upto here */}
                 </div>
                 {editButtonActive == 0 &&
                   <div className='new-schema-button'>
 
-                    <button onClick={() => setShowNewControllerPopUp(0)} className='addSchemaButton'>Cancel</button>
+                    <button onClick={() => cancel()} className='addSchemaButton'>Cancel</button>
                     <button onClick={() => addNewController()} className='addSchemaButton'>Add</button>
                   </div>
                 }
                 {editButtonActive == 1 &&
                   <div className='new-schema-button'>
 
-                    <button onClick={() => { setShowNewControllerPopUp(0); setEditButtonActive(0) }} className='addSchemaButton'>Cancel</button>
+                    <button onClick={() => cancel()} className='addSchemaButton'>Cancel</button>
                     <button onClick={() => editAndUpdateController(routesData, editIndex)} className='addSchemaButton'>Update</button>
                   </div>
                 }
