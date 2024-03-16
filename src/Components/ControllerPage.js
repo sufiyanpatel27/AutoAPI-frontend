@@ -80,6 +80,37 @@ const ControllerContent = () => {
 
 
 
+  const addNewController = () => {
+    models.push(model)
+    requests.push(request)
+    methods.push(method)
+    queryParams.push(queryParam)
+
+    const newController = {
+      "route": route,
+      "requests": requests,
+      "methods": methods,
+      "quryparams": queryParams,
+      "models": models
+    }
+
+    axios.post(Base_Url + 'create_router', newController)
+      .then(() => {
+        setShowNewControllerPopUp(0);
+        setShowNewControllerCards(0);
+        setRoute("/")
+        setrequest("")
+        setmodel("")
+        setMethod("")
+        setQueryParam("")
+        setmodels([])
+        setrequests([])
+        setMethods([])
+        setQueryParams([])
+      })
+      .catch((err) => console.log(err));
+  }
+
   const addNewControllerinExistingRouter = (route) => {
     setShowNewControllerPopUp(1);
     setRoute(route[0])
@@ -140,53 +171,6 @@ const ControllerContent = () => {
       .catch((err) => console.log(err));
   }
 
-
-
-  const addNewController = () => {
-    models.push(model)
-    requests.push(request)
-    methods.push(method)
-    queryParams.push(queryParam)
-
-    const newController = {
-      "route": route,
-      "requests": requests,
-      "methods": methods,
-      "quryparams": queryParams,
-      "models": models
-    }
-
-    axios.post(Base_Url + 'create_router', newController)
-      .then(() => {
-        setShowNewControllerPopUp(0);
-        setShowNewControllerCards(0);
-        setRoute("/")
-        setrequest("")
-        setmodel("")
-        setMethod("")
-        setQueryParam("")
-        setmodels([])
-        setrequests([])
-        setMethods([])
-        setQueryParams([])
-      })
-      .catch((err) => console.log(err));
-  }
-
-  const cancel = () => {
-    setShowNewControllerPopUp(0)
-    setEditButtonActive(0)
-    setRoute("/")
-    setrequest("")
-    setmodel("")
-    setMethod("")
-    setQueryParam("")
-    setmodels([])
-    setrequests([])
-    setMethods([])
-    setQueryParams([])
-  }
-
   const deleteRouter = (router) => {
     axios.post(Base_Url + 'delete_router', { router })
       .then()
@@ -228,6 +212,20 @@ const ControllerContent = () => {
 
   }
 
+  const cancel = () => {
+    setShowNewControllerPopUp(0)
+    setEditButtonActive(0)
+    setRoute("/")
+    setrequest("")
+    setmodel("")
+    setMethod("")
+    setQueryParam("")
+    setmodels([])
+    setrequests([])
+    setMethods([])
+    setQueryParams([])
+  }
+
   const preventDelete = (e) => {
     const input = document.querySelector('.myInput');
     if (input.value === '/' && e.keyCode === 8) {
@@ -240,36 +238,6 @@ const ControllerContent = () => {
       <SideBar />
       <div className='mainContainer'>
         <div className='controllerContainer'>
-          {showNewControllerPopUp == 1 &&
-            <div className='new-schema-container'>
-              <div className='new-schema-card'>
-                <div>
-                  <p>Schema Name</p>
-                  <select onChange={(e) => setmodel(e.target.value)} id="dropdown" >
-                    <option value="">Select Schema</option>
-                    {SchemaData.map((option, index) => (
-                      <option key={index} value={option[0]}>
-                        {option[0]}
-                      </option>
-                    ))}
-                  </select>
-                  <p>Request </p>
-                  <select onChange={(e) => setrequest(e.target.value)} id="dropdown" >
-                    <option value="">Select request</option>
-                    {requestOptions.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className='new-schema-button'>
-                  <button onClick={() => setShowNewControllerPopUp(0)} className='addSchemaButton'>Cancel</button>
-                  <button onClick={() => addNewController()} className='addSchemaButton'>Add</button>
-                </div>
-              </div>
-            </div>
-          }
           {showNewControllerPopUp == 1 &&
             <div className='new-schema-container'>
               <div className='new-schema-card'>
