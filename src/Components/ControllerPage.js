@@ -116,6 +116,8 @@ const ControllerContent = () => {
     setRoute(route[0])
     setrequests(route[1])
     setmodels(route[2])
+    setMethods(route[3])
+    setQueryParams(route[4])
   }
 
   const editController = (route, controllersData) => {
