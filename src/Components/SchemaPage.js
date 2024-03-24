@@ -4,8 +4,9 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import SideBar from './ChildComponents/Sidebar';
 import NewSchema from './ChildComponents/NewSchema'
-
-
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { removeTodo, addTodo } from '../services/reducer'
 
 const environment = process.env.REACT_APP_Environment || "dev";
 let Base_Url = "";
@@ -17,15 +18,19 @@ if (environment == "dev") {
 
 const SchamaContent = () => {
 
+  const dispatch = useDispatch()
+
   const [schemaData, setSchemaData] = useState([]);
   const [showNewSchemaPopUp, setShowNewSchemaPopUp] = useState(0);
 
-  const [currSchema, setCurrSchema] = useState([])
+  const [currSchema, setCurrSchema] = useState({})
+  const [EditButtonActive, setEditButtonActive] = useState(0)
+
+  // Redux
+  const todos = useSelector(state => state.todos)
 
   useEffect(() => {
-    axios.get(Base_Url + "schemas")
-      .then((res) => setSchemaData(res.data))
-  }, [schemaData])
+  }, [])
 
   const openNewSchemaPopUp = () => {
     setShowNewSchemaPopUp(1)
@@ -41,13 +46,19 @@ const SchamaContent = () => {
 
   const editSchema = (schema) => {
     setShowNewSchemaPopUp(1);
+    setEditButtonActive(1)
     setCurrSchema(schema)
   }
 
+  const updateEditButtonActive = (data) => {
+    setEditButtonActive(data)
+  }
+
   const deleteSchema = (schema) => {
-    axios.post(Base_Url + 'delete_schema', { schema })
-      .then()
-      .catch((err) => console.log(err))
+    dispatch(removeTodo(schema.id))
+    // axios.post(Base_Url + 'delete_schema', { schema })
+    //   .then()
+    //   .catch((err) => console.log(err))
   }
 
   return (
@@ -56,7 +67,9 @@ const SchamaContent = () => {
       <div className='mainContainer'>
         <div className='schemaContainer'>
           {showNewSchemaPopUp == 1 &&
-            <NewSchema openPopUp={openNewSchemaPopUp} closePopUp={closeNewSchemaPopUp} currSchema={currSchema} updateSchema={updateSchema}/>
+            <NewSchema openPopUp={openNewSchemaPopUp} closePopUp={closeNewSchemaPopUp} currSchema={currSchema} updateSchema={updateSchema}
+              EditButtonActive={EditButtonActive} updateEditButtonActive={updateEditButtonActive}
+            />
           }
           <div className='header'>
             <h1>Schema</h1>
@@ -69,18 +82,18 @@ const SchamaContent = () => {
                 </button>
               </Link>
             </div>
-            {schemaData.map((schema) => (
+            {todos.map((schema) => (
               <div className='card-container'>
                 <div className='card'>
                   <div className='card-content'>
-                    <h2>{schema[0]}</h2>
+                    <h2>{schema.data.schemaName}</h2>
                   </div>
                   <div className='card-content'>
                     <p>Schema Description</p>
                   </div>
                   <div className='card-content'>
-                    <button onClick={() => {editSchema(schema)}} className='addSchemaButton'>Edit</button>
-                    <p style={{ cursor: 'pointer' }} onClick={() => deleteSchema(schema[0])}>delete</p>
+                    <button onClick={() => { editSchema(schema) }} className='addSchemaButton'>Edit</button>
+                    <p style={{ cursor: 'pointer' }} onClick={() => deleteSchema(schema)}>delete</p>
                   </div>
                 </div>
               </div>

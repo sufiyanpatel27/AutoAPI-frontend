@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import { useDispatch } from "react-redux";
+import { addRouter, updateRouter } from "../../services/reducer";
 
 const environment = process.env.REACT_APP_Environment || "dev";
 let Base_Url = "";
@@ -12,9 +14,10 @@ if (environment == "dev") {
 
 const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPopUp, updateEditButtonActive,
     models, requests, methods, queryParams, route, updateNewControllerCard, editIndex, updateRoute,
-    updateModels, updateRequests, updateMethods, updateQueryParams
+    updateModels, updateRequests, updateMethods, updateQueryParams, currId
 }) => {
 
+    const dispactch = useDispatch();
 
 
 
@@ -22,7 +25,7 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
     const [model, setmodel] = useState('');
     const [request, setrequest] = useState('');
     const [method, setMethod] = useState('');
-    const [queryParam, setQueryParam] = useState('')
+    const [queryParam, setQueryParam] = useState('');
 
     // default options
     const requestOptions = ['get', 'post', 'put', 'delete'];
@@ -31,6 +34,13 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
     const putRequestOptions = ['findByIdAndUpdate()'];
     const deleteRequestOptions = ['findByIdAndDelete()', 'findOneAndDelete()'];
 
+    //
+    const [newRoute, setNewRoute] = useState("")
+    const [newModels, setNewModels] = useState([]);
+    const [newRequests, setNewRequests] = useState([]);
+    const [newMethods, setNewMethods] = useState([]);
+    const [newQueryParam, setNewQueryParam] = useState([]);
+
 
 
     // methods
@@ -38,68 +48,114 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
         setmodel(models[editIndex])
         setrequest(requests[editIndex])
         setMethod(methods[editIndex])
-        setQueryParam(queryParams[editIndex])
+        if (queryParams === undefined) {
+            setQueryParam("")
+        } else {
+            setQueryParam(queryParams[editIndex])
+        }
     }, [])
 
 
     // new controller method
     const addNewController = () => {
-        models.push(model)
-        requests.push(request)
-        methods.push(method)
-        queryParams.push(queryParam)
+        for (let i = 0; i <= models.length - 1; i++) {
+            newModels.push(models[i])
+            newRequests.push(requests[i])
+            newMethods.push(methods[i])
+            newQueryParam.push(queryParams[i])
+        }
+        newModels.push(model)
+        newRequests.push(request)
+        newMethods.push(method)
+        if (queryParam === undefined) {
+            newQueryParam.push("")
+        } else {
+            newQueryParam.push(queryParam)
+        }
 
         const newController = {
             "route": route,
-            "requests": requests,
-            "methods": methods,
-            "quryparams": queryParams,
-            "models": models
+            "requests": newRequests,
+            "methods": newMethods,
+            "queryParams": newQueryParam,
+            "models": newModels
         }
+        
+        if (currId === "") {
+            dispactch(addRouter(newController))
+        } else {
+            dispactch(updateRouter({ id: currId, data: newController }))
+        }
+        updateShowNewControllerPopUp(0);
+        updateNewControllerCard(0);
+        updateRoute('/');
+        updateModels([]);
+        updateRequests([]);
+        updateMethods([]);
+        updateQueryParams([]);
 
-        axios.post(Base_Url + 'create_router', newController)
-            .then(() => {
-                updateShowNewControllerPopUp(0);
-                updateNewControllerCard(0);
-                updateRoute('/');
-                updateModels([]);
-                updateRequests([]);
-                updateMethods([]);
-                updateQueryParams([]);
-            })
-            .catch((err) => console.log(err));
+        // axios.post(Base_Url + 'create_router', newController)
+        //     .then(() => {
+        //         updateShowNewControllerPopUp(0);
+        //         updateNewControllerCard(0);
+        //         updateRoute('/');
+        //         updateModels([]);
+        //         updateRequests([]);
+        //         updateMethods([]);
+        //         updateQueryParams([]);
+        //     })
+        //     .catch((err) => console.log(err));
     }
 
     //edit controller card
     const editAndUpdateController = (editIndex) => {
 
-        // new controller object here
-        models[editIndex] = model
-        requests[editIndex] = request
-        methods[editIndex] = method
-        queryParams[editIndex] = queryParam
+        for (let i = 0; i <= models.length - 1; i++) {
+            newModels.push(models[i])
+            newRequests.push(requests[i])
+            newMethods.push(methods[i])
+            newQueryParam.push(queryParams[i])
+        }
+        newModels[editIndex] = model
+        newRequests[editIndex] = request
+        newMethods[editIndex] = method
+        if (queryParam === undefined) {
+            newQueryParam[editIndex] = ""
+        } else {
+            newQueryParam[editIndex] = queryParam
+        }
         const newController = {
             "route": route,
-            "requests": requests,
-            "methods": methods,
-            "quryparams": queryParams,
-            "models": models
+            "requests": newRequests,
+            "methods": newMethods,
+            "queryParams": newQueryParam,
+            "models": newModels
         }
 
         console.log(newController)
+        //"5u_ZL_Gy5JZVlF6FISa3E"
 
-        axios.post(Base_Url + 'create_router', newController)
-            .then(() => {
-                updateShowNewControllerPopUp(0);
-                updateNewControllerCard(0);
-                updateEditButtonActive(0);
-                updateRoute('/');
-                updateModels([]);
-                updateRequests([]);
-                updateMethods([]);
-                updateQueryParams([]);
-            })
-            .catch((err) => console.log(err));
+        dispactch(updateRouter({ id: currId, data: newController }))
+        updateShowNewControllerPopUp(0);
+        updateNewControllerCard(0);
+        updateRoute('/');
+        updateModels([]);
+        updateRequests([]);
+        updateMethods([]);
+        updateQueryParams([]);
+
+        // axios.post(Base_Url + 'create_router', newController)
+        //     .then(() => {
+        //         updateShowNewControllerPopUp(0);
+        //         updateNewControllerCard(0);
+        //         updateEditButtonActive(0);
+        //         updateRoute('/');
+        //         updateModels([]);
+        //         updateRequests([]);
+        //         updateMethods([]);
+        //         updateQueryParams([]);
+        //     })
+        //     .catch((err) => console.log(err));
     }
 
 
@@ -120,7 +176,7 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
                         <option value="">Select Schema</option>
                         {SchemaData.map((option, index) => (
                             <option key={index} value={option[0]}>
-                                {option[0]}
+                                {option.data.schemaName}
                             </option>
                         ))}
                     </select>
@@ -192,7 +248,7 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
                         {(method === "findOne()" || method === "findOneAndDelete()") && (
                             <div>
                                 <p>Query Param</p>
-                                <input value={queryParam} placeholder='enter the variable name' onChange={(e) => setQueryParam(e.target.value)} />
+                                <input type="text" value={queryParam} placeholder='enter the variable name' onChange={(e) => setQueryParam(e.target.value)} />
                             </div>
                         )}
                     </div>

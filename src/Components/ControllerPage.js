@@ -3,7 +3,9 @@ import axios from 'axios';
 
 import SideBar from './ChildComponents/Sidebar';
 import NewController from './ChildComponents/NewController';
-
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { updateRouter, removeRouter } from '../services/reducer';
 
 
 const environment = process.env.REACT_APP_Environment || "dev";
@@ -15,6 +17,8 @@ if (environment == "dev") {
 }
 
 const ControllerContent = () => {
+
+  const dispactch = useDispatch()
 
   // schema data
   const [SchemaData, setSchemaData] = useState([]);
@@ -38,91 +42,104 @@ const ControllerContent = () => {
   const [editButtonActive, setEditButtonActive] = useState(0)
   const [editIndex, setEditIndex] = useState(0);
 
+  const [currId, setCurrId] = useState("")
+
+
+  // Redux
+  const todos = useSelector(state => state.todos)
+  const routes = useSelector(state => state.Routes)
+
 
 
 
   useEffect(() => {
-    axios.get(Base_Url + "routers")
-      .then((res) => {
-        setroutesData(res.data)
-      })
-    axios.get(Base_Url + "schemas")
-      .then((res) => setSchemaData(res.data))
-  }, [routesData])
+  }, [])
 
 
 
   const giveMeCode = () => {
-    setShowDownloadAnim(1)
+    console.log(todos)
+    console.log(routes)
+    // setShowDownloadAnim(1)
 
-    axios.post(Base_Url + 'create_code')
-      .then((res) => {
-        console.log(res.data.zipFileUrl)
-        window.open(res.data.zipFileUrl, '_blank')
-      })
-    setTimeout(() => { setTimeCounter(2) }, 1000)
-    setTimeout(() => { setTimeCounter(1) }, 2000)
-    setTimeout(() => { setShowDownloadAnim(0) }, 3000)
-    setTimeCounter(3)
+    // axios.post(Base_Url + 'create_code')
+    //   .then((res) => {
+    //     console.log(res.data.zipFileUrl)
+    //     window.open(res.data.zipFileUrl, '_blank')
+    //   })
+    // setTimeout(() => { setTimeCounter(2) }, 1000)
+    // setTimeout(() => { setTimeCounter(1) }, 2000)
+    // setTimeout(() => { setShowDownloadAnim(0) }, 3000)
+    // setTimeCounter(3)
 
   }
 
 
   const addNewControllerinExistingRouter = (route) => {
+    setCurrId(route.id)
     setEditIndex(-1)
     setShowNewControllerPopUp(1);
-    setRoute(route[0])
-    setrequests(route[1])
-    setmodels(route[2])
-    setMethods(route[3])
-    setQueryParams(route[4])
+    setRoute(route.data.route)
+    setrequests(route.data.requests)
+    setmodels(route.data.models)
+    setMethods(route.data.methods)
+    setQueryParams(route.data.queryParams)
   }
 
   const editController = (route, controllersData) => {
+    setCurrId(route.id)
     setEditButtonActive(1)
     setShowNewControllerPopUp(1);
-    setRoute(route[0])
-    setrequests(route[1])
-    setmodels(route[2])
-    setMethods(route[3])
-    setQueryParams(route[4])
-    setEditIndex(route[1].indexOf(controllersData))
+    setRoute(route.data.route)
+    setrequests(route.data.requests)
+    setmodels(route.data.models)
+    setMethods(route.data.methods)
+    setQueryParams(route.data.queryParams)
+    setEditIndex(route.data.requests.indexOf(controllersData))
   }
 
-  const deleteRouter = (router) => {
-    axios.post(Base_Url + 'delete_router', { router })
-      .then()
-      .catch((err) => console.log(err))
+  const deleteRouter = (router_id) => {
+    dispactch(removeRouter(router_id))
+
+    // axios.post(Base_Url + 'delete_router', { router })
+    //   .then()
+    //   .catch((err) => console.log(err))
   }
 
   const deleteController = (route, controller) => {
-    console.log(route)
-    console.log(controller)
-    route[1].splice(route[1].indexOf(controller), 1)
-    route[2].splice(route[1].indexOf(controller), 1)
-    route[3].splice(route[1].indexOf(controller), 1)
-    route[4].splice(route[1].indexOf(controller), 1)
+
+    setCurrId(route.id)
+
+    let ind = route.data.requests.indexOf(controller)
+    let temp_models = route.data.models.slice(0, ind).concat(route.data.models.slice(ind + 1));
+    let temp_requests = route.data.requests.slice(0, ind).concat(route.data.requests.slice(ind + 1));
+    let temp_methods = route.data.methods.slice(0, ind).concat(route.data.methods.slice(ind + 1));
+    let temp_queryParams = route.data.queryParams.slice(0, ind).concat(route.data.queryParams.slice(ind + 1));
 
 
     const newController = {
-      "route": route[0],
-      "requests": route[1],
-      "models": route[2],
-      "quryparams": route[4],
-      "methods": route[3]
+      "route": route.data.route,
+      "requests": temp_requests,
+      "models": temp_models,
+      "queryParams": temp_queryParams,
+      "methods": temp_methods
     }
+    dispactch(updateRouter({ id: currId, data: newController }))
+    setRoute("/")
+    setmodels([])
+    setrequests([])
+    setMethods([])
+    setQueryParams([])
 
-    console.log(newController)
-
-    axios.post(Base_Url + 'create_router', newController)
-      .then(() => {
-        setRoute("/")
-        setmodels([])
-        setrequests([])
-        setMethods([])
-        setQueryParams([])
-      })
-      .catch((err) => console.log(err));
+    // axios.post(Base_Url + 'create_router', newController)
+    //   .then(() => {
+    //     setRoute("/")
+    //     setmodels([])
+    //     setrequests([])
+    //     setMethods([])
+    //     setQueryParams([])
+    //   })
+    //   .catch((err) => console.log(err));
 
   }
 
@@ -172,9 +189,9 @@ const ControllerContent = () => {
         <div className='controllerContainer'>
 
           {showNewControllerPopUp == 1 &&
-            <NewController SchemaData={SchemaData} editButtonActive={editButtonActive} updateShowNewControllerPopUp={updateShowNewControllerPopUp}
+            <NewController SchemaData={todos} editButtonActive={editButtonActive} updateShowNewControllerPopUp={updateShowNewControllerPopUp}
               updateEditButtonActive={updateEditButtonActive} models={models} requests={requests} methods={methods} queryParams={queryParams}
-              route={route} updateNewControllerCard={updateNewControllerCard} editIndex={editIndex} updateRoute={updateRoute}
+              route={route} updateNewControllerCard={updateNewControllerCard} editIndex={editIndex} updateRoute={updateRoute} currId={currId}
               updateModels={updateModels} updateRequests={updateRequests} updateMethods={updateMethods} updateQueryParams={updateQueryParams}
             />
           }
@@ -191,14 +208,14 @@ const ControllerContent = () => {
             }
           </div>
           <div className='controllerCardsContainer'>
-            {routesData.map((route) => (
+            {routes.map((route) => (
               <div className='controllerInfoContainer'>
                 <div className='controllerInputContainer'>
-                  <input value={route[0]} placeholder='here' style={{ width: "90%" }} />
-                  <button onClick={() => { deleteRouter(route[0]) }} className='addRouterButton'>Delete</button>
+                  <input value={route.data.route} placeholder='here' style={{ width: "90%" }} />
+                  <button onClick={() => { deleteRouter(route.id) }} className='addRouterButton'>Delete</button>
                 </div>
                 <div className='controllerMethodsContainer'>
-                  {route[1].map((controller) => (
+                  {route.data.requests.map((controller) => (
                     <div className='controller-card-container'>
                       <div className='controller-card'>
                         <div className='card-content'>
@@ -232,7 +249,7 @@ const ControllerContent = () => {
               <div className='controllerInputContainer'>
                 <input value={route} className='myInput' onChange={(e) => setRoute(e.target.value)} onKeyDown={(e) => preventDelete(e)} style={{ width: "90%" }} />
                 {showNewControllerButton == 0 &&
-                  <button onClick={() => { setShowNewControllerCards(1); setShowNewControllerButton(1) }} className='addRouterButton'>Add</button>
+                  <button onClick={() => { setShowNewControllerCards(1); setShowNewControllerButton(1); setCurrId("") }} className='addRouterButton'>Add</button>
                 }
                 {showNewControllerButton == 1 &&
                   <button onClick={() => { setShowNewControllerCards(0); setShowNewControllerButton(0); setRoute("/") }} className='addRouterButton'>Cancel</button>

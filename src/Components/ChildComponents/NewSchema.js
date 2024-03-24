@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import { useDispatch } from "react-redux";
+import { addTodo, updateTodo } from "../../services/reducer";
 
 const environment = process.env.REACT_APP_Environment || "dev";
 let Base_Url = "";
@@ -10,7 +12,9 @@ if (environment == "dev") {
     Base_Url = process.env.REACT_APP_Base_URL;
 }
 
-const NewSchema = ({ openPopUp, closePopUp, currSchema, updateSchema }) => {
+const NewSchema = ({ openPopUp, closePopUp, currSchema, updateSchema, EditButtonActive, updateEditButtonActive }) => {
+
+    const dispatch = useDispatch()
 
     const [newSchemaName, setNewSchemaName] = useState("");
     const [newTableName, setnewTableName] = useState("");
@@ -25,23 +29,23 @@ const NewSchema = ({ openPopUp, closePopUp, currSchema, updateSchema }) => {
     const [editingIndex, setEditingIndex] = useState(null);
 
     useEffect(() => {
-        if (currSchema.length > 0) {
-            setNewSchemaName(currSchema[0])
-
+        console.log(currSchema)
+        if (Object.keys(currSchema).length >= 1) {
+            setNewSchemaName(currSchema.data.schemaName)
             let temp_todos = []
             let temp_todosprop = []
             let temp_todosprop2 = []
-            for (let key in currSchema[1]) {
-                if (currSchema[1].hasOwnProperty(key)) {
-                    temp_todos.push(key)
-                    temp_todosprop.push(currSchema[1][key].type)
-                    temp_todosprop2.push(currSchema[1][key].required)
-                }
+            for (let key in currSchema.data.schema) {
+                temp_todos.push(key)
+                temp_todosprop.push(currSchema.data.schema[key].type)
+                temp_todosprop2.push(currSchema.data.schema[key].required)
+
             }
             setTodos(temp_todos)
             setTodosProp(temp_todosprop)
             setTodosProp2(temp_todosprop2)
         }
+
     }, [])
 
 
@@ -125,9 +129,24 @@ const NewSchema = ({ openPopUp, closePopUp, currSchema, updateSchema }) => {
             "schema": schema
         }
 
-        axios.post(Base_Url + 'create_schema', newSchema)
-            .then(closePopUp)
-            .catch((err) => console.log(err))
+        if (EditButtonActive) {
+            dispatch(updateTodo({id: currSchema.id, data: newSchema}))
+            updateSchema({})
+            closePopUp()
+        } else {
+            dispatch(addTodo(newSchema))
+            updateSchema({})
+            closePopUp()
+        }
+        // axios.post(Base_Url + 'create_schema', newSchema)
+        //     .then(closePopUp)
+        //     .catch((err) => console.log(err))
+    }
+
+    const cancel = () => {
+        updateSchema({})
+        updateEditButtonActive(0);
+        closePopUp();
     }
 
 
@@ -179,10 +198,19 @@ const NewSchema = ({ openPopUp, closePopUp, currSchema, updateSchema }) => {
 
 
                 </div>
-                <div className='new-schema-button'>
-                    <button onClick={closePopUp} className='addSchemaButton'>Cancel</button>
-                    <button onClick={() => addNewSchema()} className='addSchemaButton'>Add</button>
-                </div>
+
+                {EditButtonActive == 0 &&
+                    <div className='new-schema-button'>
+                        <button onClick={closePopUp} className='addSchemaButton'>Cancel</button>
+                        <button onClick={() => addNewSchema()} className='addSchemaButton'>Add</button>
+                    </div>
+                }
+                {EditButtonActive == 1 &&
+                    <div className='new-schema-button'>
+                        <button onClick={() => cancel()} className='addSchemaButton'>Cancel</button>
+                        <button onClick={() => addNewSchema()} className='addSchemaButton'>Update</button>
+                    </div>
+                }
             </div>
         </div>
     )
