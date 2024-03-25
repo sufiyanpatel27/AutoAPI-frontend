@@ -97,8 +97,8 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
             newQueryParam.push(queryParam)
         }
 
-        if (route[route.length - 1] !== "/") {
-            route += '/'
+        if (route === "/") {
+            route = ''
         }
 
         const newController = {
