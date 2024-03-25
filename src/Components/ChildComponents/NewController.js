@@ -62,15 +62,15 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
         requests.map((item) => {
             if (item == 'get') {
                 getCount += 1
-            }else if(item == 'post') {
+            } else if (item == 'post') {
                 postCount += 1
-            }else if(item == 'put') {
+            } else if (item == 'put') {
                 putCount += 1
-            }else if(item == 'delete') {
+            } else if (item == 'delete') {
                 deleteCount += 1
             }
         })
-        if (getCount <=2 ) {
+        if (getCount <= 2) {
             getCount = 0
         }
         if (deleteCount <= 1) {
@@ -82,7 +82,7 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
 
     // new controller method
     const addNewController = () => {
-        for (let i = 0; i <= models.length - 1; i++) {
+        for (let i = 0; i <= requests.length - 1; i++) {
             newModels.push(models[i])
             newRequests.push(requests[i])
             newMethods.push(methods[i])
@@ -95,6 +95,10 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
             newQueryParam.push("")
         } else {
             newQueryParam.push(queryParam)
+        }
+
+        if (route[route.length - 1] !== "/") {
+            route += '/'
         }
 
         const newController = {
