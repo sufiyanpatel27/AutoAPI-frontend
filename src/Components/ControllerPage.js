@@ -268,7 +268,7 @@ const ControllerContent = () => {
                       <div className='card-content'>
                       </div>
                       <div className='card-content'>
-                        <button className='addControllerButton' onClick={() => { setShowNewControllerPopUp(1); setShowNewControllerButton(0); setEditIndex(-1); setrequests([]) }}>Add</button>
+                        <button className='addControllerButton' onClick={() => { setShowNewControllerPopUp(1); setShowNewControllerButton(0); setEditIndex(-1); setrequests([]); setMethods([]) }}>Add</button>
                       </div>
                     </div>
                   </div>
