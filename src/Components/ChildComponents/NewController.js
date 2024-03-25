@@ -27,6 +27,8 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
     const [method, setMethod] = useState('');
     const [queryParam, setQueryParam] = useState('');
 
+    const [disableRequests, setDisableRequests] = useState([0, 0, 0, 0])
+
     // default options
     const requestOptions = ['get', 'post', 'put', 'delete'];
     const getRequestOptions = ['find()', 'findById()', 'findOne()'];
@@ -53,6 +55,28 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
         } else {
             setQueryParam(queryParams[editIndex])
         }
+        let getCount = 0
+        let postCount = 0
+        let putCount = 0
+        let deleteCount = 0
+        requests.map((item) => {
+            if (item == 'get') {
+                getCount += 1
+            }else if(item == 'post') {
+                postCount += 1
+            }else if(item == 'put') {
+                putCount += 1
+            }else if(item == 'delete') {
+                deleteCount += 1
+            }
+        })
+        if (getCount <=2 ) {
+            getCount = 0
+        }
+        if (deleteCount <= 1) {
+            deleteCount = 0
+        }
+        setDisableRequests([getCount, postCount, putCount, deleteCount])
     }, [])
 
 
@@ -80,7 +104,7 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
             "queryParams": newQueryParam,
             "models": newModels
         }
-        
+
         if (currId === "") {
             dispactch(addRouter(newController))
         } else {
@@ -93,18 +117,6 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
         updateRequests([]);
         updateMethods([]);
         updateQueryParams([]);
-
-        // axios.post(Base_Url + 'create_router', newController)
-        //     .then(() => {
-        //         updateShowNewControllerPopUp(0);
-        //         updateNewControllerCard(0);
-        //         updateRoute('/');
-        //         updateModels([]);
-        //         updateRequests([]);
-        //         updateMethods([]);
-        //         updateQueryParams([]);
-        //     })
-        //     .catch((err) => console.log(err));
     }
 
     //edit controller card
@@ -132,9 +144,6 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
             "models": newModels
         }
 
-        console.log(newController)
-        //"5u_ZL_Gy5JZVlF6FISa3E"
-
         dispactch(updateRouter({ id: currId, data: newController }))
         updateShowNewControllerPopUp(0);
         updateNewControllerCard(0);
@@ -143,19 +152,6 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
         updateRequests([]);
         updateMethods([]);
         updateQueryParams([]);
-
-        // axios.post(Base_Url + 'create_router', newController)
-        //     .then(() => {
-        //         updateShowNewControllerPopUp(0);
-        //         updateNewControllerCard(0);
-        //         updateEditButtonActive(0);
-        //         updateRoute('/');
-        //         updateModels([]);
-        //         updateRequests([]);
-        //         updateMethods([]);
-        //         updateQueryParams([]);
-        //     })
-        //     .catch((err) => console.log(err));
     }
 
 
@@ -186,7 +182,7 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
                             <select value={request} onChange={(e) => setrequest(e.target.value)} id="dropdown" >
                                 <option value="">Select request</option>
                                 {requestOptions.map((option, index) => (
-                                    <option key={index} value={option}>
+                                    <option key={index} value={option} disabled={disableRequests[index]}>
                                         {option}
                                     </option>
                                 ))}
@@ -199,7 +195,7 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
                                 <select value={method} onChange={(e) => setMethod(e.target.value)} id="dropdown" >
                                     <option value="">Select method</option>
                                     {getRequestOptions.map((option, index) => (
-                                        <option key={index} value={option}>
+                                        <option key={index} value={option} disabled={methods.includes(option)}>
                                             {option}
                                         </option>
                                     ))}
@@ -209,10 +205,10 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
                         {request === "post" &&
                             <div>
                                 <p>Method </p>
-                                <select value={method} onChange={(e) => setMethod(e.target.value)} id="dropdown" >
+                                <select value={method} onChange={(e) => setMethod(e.target.value)} id="dropdown" defaultValue={postRequestOptions[0]}>
                                     <option value="">Select method</option>
                                     {postRequestOptions.map((option, index) => (
-                                        <option key={index} value={option}>
+                                        <option key={index} value={option} disabled={methods.includes(option)}>
                                             {option}
                                         </option>
                                     ))}
@@ -222,10 +218,10 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
                         {request === "put" &&
                             <div>
                                 <p>Method </p>
-                                <select value={method} onChange={(e) => setMethod(e.target.value)} id="dropdown" >
+                                <select value={method} onChange={(e) => setMethod(e.target.value)} id="dropdown" defaultValue={putRequestOptions[0]}>
                                     <option value="">Select method</option>
                                     {putRequestOptions.map((option, index) => (
-                                        <option key={index} value={option}>
+                                        <option key={index} value={option} disabled={methods.includes(option)}>
                                             {option}
                                         </option>
                                     ))}
@@ -238,7 +234,7 @@ const NewController = ({ SchemaData, editButtonActive, updateShowNewControllerPo
                                 <select value={method} onChange={(e) => setMethod(e.target.value)} id="dropdown" >
                                     <option value="">Select method</option>
                                     {deleteRequestOptions.map((option, index) => (
-                                        <option key={index} value={option}>
+                                        <option key={index} value={option} disabled={methods.includes(option)}>
                                             {option}
                                         </option>
                                     ))}

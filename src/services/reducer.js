@@ -2,7 +2,8 @@ import { createSlice, nanoid } from '@reduxjs/toolkit';
 
 const initialState = {
     todos: [],
-    Routes: []
+    Routes: [],
+    backend_service: 1
 }
 
 export const reducerSlice = createSlice({
@@ -51,10 +52,15 @@ export const reducerSlice = createSlice({
                 route.id !== action.payload
             )
         },
+
+        // backend service
+        updateBackendService: (state, action) => {
+            state.backend_service = action.payload;
+        }
     }
 })
 
 
-export const { addTodo, removeTodo, updateTodo, addRouter, updateRouter, removeRouter } = reducerSlice.actions
+export const { addTodo, removeTodo, updateTodo, addRouter, updateRouter, removeRouter, updateBackendService } = reducerSlice.actions
 
 export default reducerSlice.reducer

@@ -29,7 +29,6 @@ const NewSchema = ({ openPopUp, closePopUp, currSchema, updateSchema, EditButton
     const [editingIndex, setEditingIndex] = useState(null);
 
     useEffect(() => {
-        console.log(currSchema)
         if (Object.keys(currSchema).length >= 1) {
             setNewSchemaName(currSchema.data.schemaName)
             let temp_todos = []
@@ -138,9 +137,6 @@ const NewSchema = ({ openPopUp, closePopUp, currSchema, updateSchema, EditButton
             updateSchema({})
             closePopUp()
         }
-        // axios.post(Base_Url + 'create_schema', newSchema)
-        //     .then(closePopUp)
-        //     .catch((err) => console.log(err))
     }
 
     const cancel = () => {

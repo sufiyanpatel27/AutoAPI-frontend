@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+
+
 const environment = process.env.REACT_APP_Environment || "dev";
 let Base_Url = "";
 if (environment == "dev") {
@@ -16,11 +18,8 @@ const HomePageContect = () => {
   useEffect(() => {
     axios.get(Base_Url + 'initialize')
       .then((res) => setBackendService(res.data))
+      .then(() => console.log('resources loaded succesfully'))
   }, [])
-
-  const start = () => {
-    axios.get(Base_Url + 'start')
-  }
 
   return (
     <div className="Container">
@@ -61,7 +60,7 @@ const HomePageContect = () => {
       </div>
       <div className='mainContainer'>
         <div style={{ display: 'flex', width: "100%", height: '100%', justifyContent: 'space-evenly', alignItems: 'center' }}>
-          <Link style={{ color: 'inherit', textDecoration: 'none' }} to="/schema" onClick={() => start()} >
+          <Link style={{ color: 'inherit', textDecoration: 'none' }} to="/schema" >
             <div style={{ height: '200px', width: '350px', display: 'flex', flexDirection: 'column', boxShadow: '7px 7px 10px rgb(97, 95, 95)', borderRadius: '10px', padding: '10px' }}>
               <h2>New Project</h2>
               <p>Start a Fresh NODE JS Project.</p>

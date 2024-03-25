@@ -56,9 +56,6 @@ const SchamaContent = () => {
 
   const deleteSchema = (schema) => {
     dispatch(removeTodo(schema.id))
-    // axios.post(Base_Url + 'delete_schema', { schema })
-    //   .then()
-    //   .catch((err) => console.log(err))
   }
 
   return (

@@ -50,27 +50,26 @@ const ControllerContent = () => {
   const routes = useSelector(state => state.Routes)
 
 
-
-
   useEffect(() => {
   }, [])
 
 
 
   const giveMeCode = () => {
-    console.log(todos)
-    console.log(routes)
-    // setShowDownloadAnim(1)
+    setShowDownloadAnim(1)
 
-    // axios.post(Base_Url + 'create_code')
-    //   .then((res) => {
-    //     console.log(res.data.zipFileUrl)
-    //     window.open(res.data.zipFileUrl, '_blank')
-    //   })
-    // setTimeout(() => { setTimeCounter(2) }, 1000)
-    // setTimeout(() => { setTimeCounter(1) }, 2000)
-    // setTimeout(() => { setShowDownloadAnim(0) }, 3000)
-    // setTimeCounter(3)
+    axios.post(Base_Url + 'create_code', {
+      schemas: todos,
+      routers: routes
+    })
+      .then((res) => {
+        console.log(res.data.zipFileUrl)
+        window.open(res.data.zipFileUrl, '_blank')
+      })
+    setTimeout(() => { setTimeCounter(2) }, 1000)
+    setTimeout(() => { setTimeCounter(1) }, 2000)
+    setTimeout(() => { setShowDownloadAnim(0) }, 3000)
+    setTimeCounter(3)
 
   }
 
@@ -95,15 +94,11 @@ const ControllerContent = () => {
     setmodels(route.data.models)
     setMethods(route.data.methods)
     setQueryParams(route.data.queryParams)
-    setEditIndex(route.data.requests.indexOf(controllersData))
+    setEditIndex(controllersData)
   }
 
   const deleteRouter = (router_id) => {
     dispactch(removeRouter(router_id))
-
-    // axios.post(Base_Url + 'delete_router', { router })
-    //   .then()
-    //   .catch((err) => console.log(err))
   }
 
   const deleteController = (route, controller) => {
@@ -130,16 +125,6 @@ const ControllerContent = () => {
     setrequests([])
     setMethods([])
     setQueryParams([])
-
-    // axios.post(Base_Url + 'create_router', newController)
-    //   .then(() => {
-    //     setRoute("/")
-    //     setmodels([])
-    //     setrequests([])
-    //     setMethods([])
-    //     setQueryParams([])
-    //   })
-    //   .catch((err) => console.log(err));
 
   }
 
@@ -215,7 +200,7 @@ const ControllerContent = () => {
                   <button onClick={() => { deleteRouter(route.id) }} className='addRouterButton'>Delete</button>
                 </div>
                 <div className='controllerMethodsContainer'>
-                  {route.data.requests.map((controller) => (
+                  {route.data.requests.map((controller, index) => (
                     <div className='controller-card-container'>
                       <div className='controller-card'>
                         <div className='card-content'>
@@ -225,7 +210,7 @@ const ControllerContent = () => {
                           <p>Controller Description</p>
                         </div>
                         <div className='card-content'>
-                          <button className='addControllerButton' onClick={() => editController(route, controller)}>Edit</button>
+                          <button className='addControllerButton' onClick={() => editController(route, index)}>Edit</button>
                           <p onClick={() => deleteController(route, controller)}>delete</p>
                         </div>
                       </div>
@@ -247,9 +232,26 @@ const ControllerContent = () => {
             ))}
             <div className='controllerInfoContainer'>
               <div className='controllerInputContainer'>
-                <input value={route} className='myInput' onChange={(e) => setRoute(e.target.value)} onKeyDown={(e) => preventDelete(e)} style={{ width: "90%" }} />
+                <input value={route} className='myInput' onChange={(e) => { setRoute(e.target.value) }} onKeyDown={(e) => preventDelete(e)} style={{ width: "90%" }} />
+                {
+                  routes.map((root) => {
+                    if (root.data.route == route) {
+                      const button = document.getElementById('myButton');
+                      // Disable the button
+                      if (button) {
+                        button.disabled = true;
+                      }
+                    } else {
+                      const button = document.getElementById('myButton');
+                      // Disable the button
+                      if (button) {
+                        button.disabled = false;
+                      }
+                    }
+                  })
+                }
                 {showNewControllerButton == 0 &&
-                  <button onClick={() => { setShowNewControllerCards(1); setShowNewControllerButton(1); setCurrId("") }} className='addRouterButton'>Add</button>
+                  <button id='myButton' onClick={() => { setShowNewControllerCards(1); setShowNewControllerButton(1); setCurrId("") }} className='addRouterButton'>Add</button>
                 }
                 {showNewControllerButton == 1 &&
                   <button onClick={() => { setShowNewControllerCards(0); setShowNewControllerButton(0); setRoute("/") }} className='addRouterButton'>Cancel</button>
