@@ -47,17 +47,16 @@ const HomePageContect = () => {
             Auto API
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', width: '80%', justifyContent: 'center', alignItems: 'center' }}>
-            <p style={{ textAlign: 'center' }}>A Tool that helps you generate the Node JS backend code</p>
+            <p style={{ textAlign: 'center' }}>Create robust Node.js APIs in a flash with our innovative Code Generator.</p>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', width: '80%', height: '50%', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', width: '90%', height: '50%', justifyContent: 'center', alignItems: 'center' }}>
             <p style={{ fontSize: 20 }}>Todos</p>
             <div>
               <li>Upload an existing project</li>
-              <li>Add the loading spinner</li>
-              <li>Add home, back, other icons</li>
-              <li>Add the schema description content</li>
-              <li>Add the controller description content</li>
-              <li>New route input box style change</li>
+              <li>Integrate Generative AI (GPT 4.0 / Mistral AI)</li>
+              <li>Icons update</li>
+              <li>Add the schema and controller description content</li>
+              <li>New route/controller input dialogue UI update</li>
             </div>
           </div>
         </div>
@@ -67,12 +66,12 @@ const HomePageContect = () => {
           <Link style={{ color: 'inherit', textDecoration: 'none' }} to="/schema" >
             <div style={{ height: '200px', width: '350px', display: 'flex', flexDirection: 'column', boxShadow: '7px 7px 10px rgb(97, 95, 95)', borderRadius: '10px', padding: '10px' }}>
               <h2>New Project</h2>
-              <p>Start a Fresh NODE JS Project.</p>
+              <p>Start a Fresh Node JS Project.</p>
             </div>
           </Link>
           <div style={{ height: '200px', width: '350px', display: 'flex', flexDirection: 'column', boxShadow: '7px 7px 10px rgb(97, 95, 95)', borderRadius: '10px', padding: '10px', cursor: 'no-drop' }}>
             <h2>Existing Project</h2>
-            <p>upload the Folder that contains the Node JS backend code.</p>
+            <p>Upload an existing Node JS project.</p>
             <p>coming soon ...</p>
           </div>
         </div>
