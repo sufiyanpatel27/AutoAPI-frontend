@@ -27,7 +27,7 @@ const HomePageContect = () => {
 
   return (
     <div className="Container">
-      {backendservice === '' &&
+      {/* {backendservice === '' &&
         <div style={{
           position: 'fixed', width: '100%', display: 'flex',
           justifyContent: 'center', height: '10%', alignItems: 'end',
@@ -37,10 +37,10 @@ const HomePageContect = () => {
             padding: 10, boxShadow: '10px 10px 10px rgb(180, 175, 175)', borderRadius: 15,
             animation: 'moveRight 2s linear infinite'
           }}>
-            Please wait while Loading Resources ...
+            Loading Resources... You may continue
           </div>
         </div>
-      }
+      } */}
       <div className='sideBar'>
         <div className='sideBarContaintHomePage'>
           <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '30%', justifyContent: 'end', alignItems: 'center', fontSize: 80 }}>
