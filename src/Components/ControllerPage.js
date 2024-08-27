@@ -48,7 +48,7 @@ const ControllerContent = () => {
   // Redux
   const todos = useSelector(state => state.todos)
   const routes = useSelector(state => state.Routes)
-
+  const backendService = useSelector(state => state.backend_service)
 
   useEffect(() => {
   }, [])
@@ -185,8 +185,11 @@ const ControllerContent = () => {
             <h1>Controller</h1>
           </div>
           <div>
-            {showDownloadAnim == 0 &&
+            {showDownloadAnim == 0 && backendService == 1 &&
               <button onClick={() => giveMeCode()} className='nextButton'>Code</button>
+            }
+            {showDownloadAnim == 0 && backendService == 0 &&
+              <button className='downloadingButton'>Loading Resources</button>
             }
             {showDownloadAnim == 1 &&
               <button className='downloadingButton'>Downloading... {timeCounter}</button>

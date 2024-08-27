@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { updateBackendService } from "../services/reducer";
 
 
 const environment = process.env.REACT_APP_Environment || "dev";
@@ -13,11 +15,13 @@ if (environment == "dev") {
 
 const HomePageContect = () => {
 
+  const dispactch = useDispatch();
+
   const [backendservice, setBackendService] = useState('');
 
   useEffect(() => {
     axios.get(Base_Url + 'initialize')
-      .then((res) => setBackendService(res.data))
+      .then((res) => {setBackendService(res.data); dispactch(updateBackendService("1"))})
       .then(() => console.log('resources loaded succesfully'))
   }, [])
 

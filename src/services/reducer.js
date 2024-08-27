@@ -3,7 +3,7 @@ import { createSlice, nanoid } from '@reduxjs/toolkit';
 const initialState = {
     todos: [],
     Routes: [],
-    backend_service: 1
+    backend_service: 0
 }
 
 export const reducerSlice = createSlice({
