@@ -1,70 +1,116 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 🚀AUTO API 
 
-## Available Scripts
+## A powerful MERN stack-based web application that helps developers automatically generate fully functional backend API code without writing a single line of code.
 
-In the project directory, you can run:
+## Introduction
 
-### `npm start`
+The **AUTO API** is a web-based platform where users can visually design their API schema, controllers, and routes and export the backend code for a Node.js and MongoDB-powered API. The app allows users to specify data types, validation rules, and operations such as GET, POST, PUT, DELETE. At the click of a button, the user can download a fully optimized, tested, and ready-to-run backend project in a zip file.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Description
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+In this application, developers can:
 
-### `npm test`
+- 📋 Design MongoDB schemas, defining fields with types like string, integer, etc., and optional validation (required fields).
+- 🛠️ Create unlimited collections/documents with custom names and attributes.
+- ⚙️ Automatically generate all controller logic for handling CRUD operations.
+- 🚦 Configure RESTful routes for each schema, supporting GET, POST, PUT, DELETE, and more.
+- 💾 Download the generated project as a zip file, which contains everything needed to run the API, including models, controllers, routes, and `server.js`.
+  
+The generated code is highly optimized, with no need for the user to tweak or debug anything before running it. Simply install the required dependencies, start the server, and the API is ready to use.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Screenshots
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<p align="center">
+  <img src="https://github.com/sufiyanpatel27/AutoAPI-frontend/blob/prod/src/assets/HomePage.png?raw=true" alt="Alt Text" width="400">
+  <img src="https://github.com/sufiyanpatel27/AutoAPI-frontend/blob/prod/src/assets/SchemaPage.png?raw=true" alt="Alt Text" width="400">
+  <img src="https://github.com/sufiyanpatel27/AutoAPI-frontend/blob/prod/src/assets/ControllerPage.png?raw=true" alt="Alt Text" width="400">
+</p>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Features 🌟
 
-### `npm run eject`
+- **Schema Designer**: Users can visually create MongoDB schemas with options for different data types and validation rules.
+- **Controller and Routes Generation**: Generates controller files for each schema, supporting all HTTP methods (GET, POST, PUT, DELETE).
+- **Downloadable Project**: On clicking the "Code" button, the entire backend code (models, controllers, routes, `server.js`) is zipped and downloaded.
+- **Ready to Run**: The generated code is fully optimized and tested, ensuring users can run the API immediately after installing the dependencies.
+- **Customizable Requests**: Supports all types of HTTP requests (GET, POST, PUT, DELETE).
+- **Unlimited Schemas**: Users can design and generate as many MongoDB documents (collections) as needed.
+  
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Tech Stack 💻
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Frontend**: React.js ⚛️
+- **Backend**: Node.js, Express.js 🟢
+- **Database**: MongoDB 🍃
+- **Miscellaneous**: HTML5, CSS3, JavaScript, Mongoose (for MongoDB schema validation)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Challenges Faced 🧠
 
-## Learn More
+- **Dynamic Code Generation**: Ensuring that the generated code is not only functional but also follows best practices in terms of structure and readability.
+- **Schema Validation**: Implementing robust schema validation logic so that the generated API ensures data consistency.
+- **File Compression**: Automatically zipping the generated code and serving it as a downloadable file was challenging from a backend implementation perspective.
+- **User Experience**: Designing an intuitive UI for users to design their schemas, routes, and controllers visually without overwhelming them with options.
+  
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Future Enhancements 🔮
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Database Selection**: Extend support for additional databases like MySQL or PostgreSQL, allowing users to generate code for relational databases.
+- **Middleware Support**: Enable users to add custom middleware for handling authentication, logging, or request validation.
+- **Authentication**: Allow users to add user authentication (e.g., JWT-based) when generating code for secure APIs.
+- **API Documentation Generation**: Automatically generate Swagger/OpenAPI documentation for the generated API.
+- **Version Control Integration**: Allow users to directly push the generated code to GitHub or other version control platforms.
+- **Live Preview**: Provide users with the ability to preview the generated code directly in the browser before downloading.
+  
+---
 
-### Code Splitting
+## Installation 🔧
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Prerequisites
+- Node.js (version 14.x or higher) 🟢
+- MongoDB (local or remote instance) 🍃
 
-### Analyzing the Bundle Size
+### Steps to Run the Generated Code
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. **Extract the Zip File**: After downloading, extract the zip file which contains `models`, `controllers`, `routes`, and a `server.js` file.
+2. **Install Dependencies**: Navigate to the project directory and run the following command to install dependencies:
+   ```bash
+   npm install
+   ```
+3. **Run the Server**: Start the server by running:
+   ```bash
+   node server.js
+   ```
+4. **Test the API**: Your API will be running locally at `http://localhost:5000`. You can test the routes using tools like Postman or cURL.
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Usage 📦
 
-### Advanced Configuration
+1. **Design Your Schema**: Use the UI to define MongoDB collections with fields and data types (string, integer, etc.).
+2. **Define Controllers**: Specify which routes (GET, POST, PUT, DELETE) you need for each schema.
+3. **Download the Code**: Click on the "Code" button to download a zip file containing the auto-generated backend code.
+4. **Run the API**: Extract the zip, install dependencies, and start the server.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## Resources 📚
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- [React](https://reactjs.org/) ⚛️
+- [Node.js](https://nodejs.org/) 🟢
+- [Express.js](https://expressjs.com/) 🚀
+- [MongoDB](https://www.mongodb.com/) 🍃
+- [Mongoose](https://mongoosejs.com/) 🗃️
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License ⚖️
+
+This project is licensed under the MIT License.
